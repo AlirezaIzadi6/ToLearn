@@ -28,12 +28,58 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "AccountForm";
+            loginButton = new Button();
+            registerButton = new Button();
+            closeButton = new Button();
+            SuspendLayout();
+            // 
+            // loginButton
+            // 
+            loginButton.Location = new Point(0, 0);
+            loginButton.Name = "loginButton";
+            loginButton.Size = new Size(75, 23);
+            loginButton.TabIndex = 0;
+            loginButton.Text = "Login";
+            loginButton.UseVisualStyleBackColor = true;
+            loginButton.Click += loginButton_Click;
+            // 
+            // registerButton
+            // 
+            registerButton.Location = new Point(8, 8);
+            registerButton.Name = "registerButton";
+            registerButton.Size = new Size(75, 23);
+            registerButton.TabIndex = 1;
+            registerButton.Text = "Register";
+            registerButton.UseVisualStyleBackColor = true;
+            registerButton.Click += registerButton_Click;
+            // 
+            // closeButton
+            // 
+            closeButton.Location = new Point(0, 0);
+            closeButton.Name = "closeButton";
+            closeButton.Size = new Size(75, 23);
+            closeButton.TabIndex = 2;
+            closeButton.Text = "Close";
+            closeButton.UseVisualStyleBackColor = true;
+            closeButton.Click += closeButton_Click;
+            // 
+            // AccountForm
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(644, 450);
+            Controls.Add(closeButton);
+            Controls.Add(registerButton);
+            Controls.Add(loginButton);
+            Name = "AccountForm";
+            Text = "Account";
+            ResumeLayout(false);
         }
 
         #endregion
+
+        private Button loginButton;
+        private Button registerButton;
+        private Button closeButton;
     }
 }
