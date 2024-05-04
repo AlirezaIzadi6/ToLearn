@@ -42,6 +42,7 @@
             flashcardsButton.TabIndex = 0;
             flashcardsButton.Text = "Flashcards";
             flashcardsButton.UseVisualStyleBackColor = true;
+            flashcardsButton.Click += flashcardsButton_Click;
             // 
             // conjugationTrainingButton
             // 
@@ -51,6 +52,7 @@
             conjugationTrainingButton.TabIndex = 1;
             conjugationTrainingButton.Text = "Conjugation training";
             conjugationTrainingButton.UseVisualStyleBackColor = true;
+            conjugationTrainingButton.Click += conjugationTrainingButton_Click;
             // 
             // accountButton
             // 
@@ -60,6 +62,7 @@
             accountButton.TabIndex = 2;
             accountButton.Text = "Account";
             accountButton.UseVisualStyleBackColor = true;
+            accountButton.Click += accountButton_Click;
             // 
             // exitButton
             // 
@@ -69,8 +72,9 @@
             exitButton.TabIndex = 3;
             exitButton.Text = "Exit";
             exitButton.UseVisualStyleBackColor = true;
+            exitButton.Click += exitButton_Click;
             // 
-            // Form1
+            // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -79,8 +83,8 @@
             Controls.Add(accountButton);
             Controls.Add(conjugationTrainingButton);
             Controls.Add(flashcardsButton);
-            Name = "Form1";
-            Text = "Form1";
+            Name = "MainForm";
+            Text = "To Learn";
             ResumeLayout(false);
         }
 
