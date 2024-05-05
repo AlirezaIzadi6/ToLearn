@@ -7,14 +7,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ToLearn.Utils;
 
-namespace ToLearn.Forms.Account
+namespace ToLearn.Forms.Account;
+
+public partial class RegisterForm : CustomForm
 {
-    public partial class RegisterForm : Form
+    private readonly AccountManager _accountManager;
+
+    public RegisterForm()
     {
-        public RegisterForm()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+        _accountManager = new AccountManager(this);
+    }
+
+    private void cancelButton_Click(object sender, EventArgs e)
+    {
+        this.Close();
+    }
+
+    private void registerButton_Click(object sender, EventArgs e)
+    {
+        _accountManager.Register(emailTextBox.Text, passwordTextBox.Text);
     }
 }

@@ -15,7 +15,7 @@ using ToLearn.Utils;
 
 namespace ToLearn.Forms.Account;
 
-public partial class LoginForm : Form
+public partial class LoginForm : CustomForm
 {
     private readonly AccountManager _accountManager;
 
@@ -35,10 +35,5 @@ public partial class LoginForm : Form
         string email = emailTextBox.Text;
         string password = passwordTextBox.Text;
         _accountManager.Login(email, password);
-    }
-
-    public void ShowMessage(string message)
-    {
-        MessageBox.Show(message);
     }
 }
