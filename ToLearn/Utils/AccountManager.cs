@@ -6,7 +6,15 @@ namespace ToLearn.Utils;
 
 public class AccountManager
 {
-    public static bool Login(string email, string password)
+    private readonly LoginForm _form;
+    private User _user;
+
+    public AccountManager(LoginForm form)
+    {
+        _form = form;
+    }
+
+    public bool Login(string email, string password)
     {
         var request = new Request()
         {
@@ -15,14 +23,34 @@ public class AccountManager
         };
         var requestMaker = new RequestMaker();
         var response = requestMaker.Post("login", request);
-        try
+        LoginResponse? loginResponse = JsonSerializer.Deserialize<LoginResponse>(response);
+        if (loginResponse?.accessToken != null)
         {
-            LoginResponse loginResponse = JsonSerializer.Deserialize<LoginResponse>(response);
+            var newUser = new User()
+            {
+                Email = request.Email,
+                Password = request.Password,
+                Token = loginResponse.accessToken
+            };
+            SetCurrentUser(newUser);
+            _form.ShowMessage($"Login successful. Welcome {_user.Email}");
+            _form.Close();
             return true;
         }
-        catch (Exception ex)
+        else
         {
+            _form.ShowMessage($"An error occurred.");
             return false;
         }
+    }
+
+    public User GetCurrentUser()
+    {
+        return _user;
+    }
+
+    private void SetCurrentUser(User newUser)
+    {
+        _user = newUser;
     }
 }

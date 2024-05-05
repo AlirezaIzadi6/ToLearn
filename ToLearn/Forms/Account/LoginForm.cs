@@ -11,14 +11,18 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ToLearn.Models.Account;
+using ToLearn.Utils;
 
 namespace ToLearn.Forms.Account;
 
 public partial class LoginForm : Form
 {
+    private readonly AccountManager _accountManager;
+
     public LoginForm()
     {
         InitializeComponent();
+        _accountManager = new AccountManager(this);
     }
 
     private void cancelButton_Click(object sender, EventArgs e)
@@ -28,13 +32,13 @@ public partial class LoginForm : Form
 
     private void loginButton_Click(object sender, EventArgs e)
     {
-        var request = new Request()
-        {
-            Email = emailTextBox.Text,
-            Password = passwordTextBox.Text
-        };
-        var client = new HttpClient();
-        var result = client.PostAsJsonAsync<Request>("https://localhost:7190/login?useCookies=false&useSessionCookies=false", request);
-        MessageBox.Show(result.Result.Content.ReadAsStringAsync().Result);
+        string email = emailTextBox.Text;
+        string password = passwordTextBox.Text;
+        _accountManager.Login(email, password);
+    }
+
+    public void ShowMessage(string message)
+    {
+        MessageBox.Show(message);
     }
 }
