@@ -2,8 +2,8 @@
 
 public class LoginResponse
 {
-    public string TokenType { get; set; }
-    public string AccessToken { get; set; }
-    public int ExpiresIn { get; set; }
-    public string RefreshToken { get; set; }
+    public string tokenType { get; set; }
+    public string accessToken { get; set; }
+    public int expiresIn { get; set; }
+    public string refreshToken { get; set; }
 }
