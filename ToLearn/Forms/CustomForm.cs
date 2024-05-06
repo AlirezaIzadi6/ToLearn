@@ -24,6 +24,6 @@ public class CustomForm : Form, ICustomForm
 
 public interface ICustomForm
 {
-    public void ShowMessage(string message, string caption);
+    public void ShowMessage(string message, string caption = "");
     public void Close();
 }
