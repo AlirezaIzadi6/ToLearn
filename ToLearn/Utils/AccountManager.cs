@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Security.Policy;
+using System.Text.Json;
 using ToLearn.Forms;
 using ToLearn.Forms.Account;
 using ToLearn.Models.Account;
@@ -83,5 +84,35 @@ public class AccountManager
     private static void SetCurrentUser(User newUser)
     {
         _user = newUser;
+    }
+
+    public static void LoadUser()
+    {
+        try
+        {
+            var user = Config.GetConfig<User>();
+            if (user != null)
+            {
+                SetCurrentUser(user);
+            }
+        }
+        catch { }
+    }
+
+    public bool UserIsLoggedIn()
+    {
+        User user = GetCurrentUser();
+        if (user == null)
+        {
+            return false;
+        }
+        var requestMaker = new RequestMaker(user);
+        var response = requestMaker.Get("manage/info");
+        var userInfo = JsonSerializer.Deserialize<UserInfo>(response);
+        if (userInfo.email == null)
+        {
+            return false;
+        }
+        return true;
     }
 }
