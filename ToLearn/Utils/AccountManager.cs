@@ -34,6 +34,7 @@ public class AccountManager
                 Token = loginResponse.accessToken
             };
             SetCurrentUser(newUser);
+            Config.SaveConfig<User>(newUser);
             _form.ShowMessage($"Login successful. Welcome {_user.Email}");
             _form.Close();
             return true;
@@ -54,9 +55,15 @@ public class AccountManager
         };
         var requestMaker = new RequestMaker();
         var response = requestMaker.Post("register", request);
-        RegisterResponse registerResponse = JsonSerializer.Deserialize<RegisterResponse>(response);
-        _form.ShowMessage(response);
-        return true;
+        if (response == string.Empty)
+        {
+            _form.ShowMessage(response);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public static User GetCurrentUser()
