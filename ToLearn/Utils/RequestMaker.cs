@@ -19,7 +19,7 @@ public class RequestMaker
         };
         if (currentUser != null)
         {
-            _client.DefaultRequestHeaders.Add("bearer", currentUser.Token);
+            _client.DefaultRequestHeaders.Add("Authorization", "Bearer "+currentUser.Token);
         }
     }
 
