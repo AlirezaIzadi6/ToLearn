@@ -85,6 +85,7 @@
             Controls.Add(flashcardsButton);
             Name = "MainForm";
             Text = "To Learn";
+            Load += MainForm_Load;
             ResumeLayout(false);
         }
 

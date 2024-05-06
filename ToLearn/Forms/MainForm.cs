@@ -1,12 +1,16 @@
 using ToLearn.Forms;
+using ToLearn.Utils;
 
 namespace ToLearn;
 
-public partial class MainForm : Form
+public partial class MainForm : CustomForm
 {
+    private readonly AccountManager _accountManager;
+
     public MainForm()
     {
         InitializeComponent();
+        _accountManager = new AccountManager(this);
     }
 
     private void flashcardsButton_Click(object sender, EventArgs e)
@@ -36,5 +40,18 @@ public partial class MainForm : Form
         this.Visible = false;
         accountForm.ShowDialog();
         this.Visible = true;
+    }
+
+    private void MainForm_Load(object sender, EventArgs e)
+    {
+        AccountManager.LoadUser();
+        if (_accountManager.UserIsLoggedIn())
+        {
+            ShowMessage("You are logged in.");
+        }
+        else
+        {
+            ShowMessage("You need to log in");
+        }
     }
 }
