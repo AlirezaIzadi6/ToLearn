@@ -29,4 +29,13 @@ public class Config
         T obj = JsonSerializer.Deserialize<T>(fileContent);
         return obj;
     }
+
+    public static void DeleteConfig<T>()
+    {
+        string filePath = $"{_configPath}\\{typeof(T).Name}.json";
+        if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+        }
+    }
 }
