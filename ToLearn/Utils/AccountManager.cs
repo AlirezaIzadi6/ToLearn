@@ -23,25 +23,33 @@ public class AccountManager
             Password = password
         };
         var requestMaker = new RequestMaker();
-        var response = requestMaker.Post("login", request);
-        LoginResponse? loginResponse = JsonSerializer.Deserialize<LoginResponse>(response);
-        if (loginResponse?.accessToken != null)
+        try
         {
-            var newUser = new User()
+            var response = requestMaker.Post("login", request);
+            LoginResponse? loginResponse = JsonSerializer.Deserialize<LoginResponse>(response);
+            if (loginResponse?.accessToken != null)
             {
-                Email = request.Email,
-                Password = request.Password,
-                Token = loginResponse.accessToken
-            };
-            SetCurrentUser(newUser);
-            Config.SaveConfig<User>(newUser);
-            _form.ShowMessage($"Login successful. Welcome {_user.Email}", "Success");
-            _form.Close();
-            return true;
+                var newUser = new User()
+                {
+                    Email = request.Email,
+                    Password = request.Password,
+                    Token = loginResponse.accessToken
+                };
+                SetCurrentUser(newUser);
+                Config.SaveConfig<User>(newUser);
+                _form.ShowMessage($"Login successful. Welcome {_user.Email}", "Success");
+                _form.Close();
+                return true;
+            }
+            else
+            {
+               _form.ShowMessage($"An error occurred.", "Failed");
+                return false;
+            }
         }
-        else
+        catch (Exception ex)
         {
-            _form.ShowMessage($"An error occurred.", "Failed");
+            _form.ShowMessage(ex.Message, "Error");
             return false;
         }
     }
