@@ -10,6 +10,7 @@ public class AccountManager
 {
     private readonly ICustomForm _form;
     private static User _user;
+    private static bool _userIsLoggedIn;
 
     public AccountManager(ICustomForm form)
     {
@@ -101,9 +102,14 @@ public class AccountManager
 
     public bool UserIsLoggedIn()
     {
+        if (_userIsLoggedIn != null)
+        {
+            return _userIsLoggedIn;
+        }
         User user = GetCurrentUser();
         if (user == null)
         {
+            _userIsLoggedIn = false;
             return false;
         }
         var requestMaker = new RequestMaker(user);
@@ -111,8 +117,10 @@ public class AccountManager
         var userInfo = JsonSerializer.Deserialize<UserInfo>(response);
         if (userInfo.email == null)
         {
+            _userIsLoggedIn = false;
             return false;
         }
+        _userIsLoggedIn = true;
         return true;
     }
 }
