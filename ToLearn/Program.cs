@@ -1,3 +1,5 @@
+using ToLearn.Utils;
+
 namespace ToLearn
 {
     internal static class Program
@@ -8,6 +10,7 @@ namespace ToLearn
         [STAThread]
         static void Main()
         {
+            Config.Initialize();
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
