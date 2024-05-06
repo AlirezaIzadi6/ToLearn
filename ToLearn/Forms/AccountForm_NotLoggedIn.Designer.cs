@@ -1,6 +1,6 @@
 ﻿namespace ToLearn.Forms
 {
-    partial class AccountForm
+    partial class AccountForm_NotLoggedIn
     {
         /// <summary>
         /// Required designer variable.

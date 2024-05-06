@@ -36,7 +36,7 @@ public partial class MainForm : CustomForm
 
     private void accountButton_Click(object sender, EventArgs e)
     {
-        var accountForm = new AccountForm();
+        var accountForm = new AccountForm_NotLoggedIn();
         this.Visible = false;
         accountForm.ShowDialog();
         this.Visible = true;

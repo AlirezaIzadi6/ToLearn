@@ -11,9 +11,9 @@ using ToLearn.Forms.Account;
 
 namespace ToLearn.Forms;
 
-public partial class AccountForm : Form
+public partial class AccountForm_NotLoggedIn : Form
 {
-    public AccountForm()
+    public AccountForm_NotLoggedIn()
     {
         InitializeComponent();
     }
