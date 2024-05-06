@@ -28,12 +28,57 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "AccountForm_LoggedIn";
+            Button closeButton;
+            statusTextBox = new TextBox();
+            logoutButton = new Button();
+            closeButton = new Button();
+            SuspendLayout();
+            // 
+            // statusTextBox
+            // 
+            statusTextBox.AccessibleName = "Status";
+            statusTextBox.Location = new Point(0, 0);
+            statusTextBox.Name = "statusTextBox";
+            statusTextBox.Size = new Size(100, 23);
+            statusTextBox.TabIndex = 0;
+            // 
+            // logoutButton
+            // 
+            logoutButton.Location = new Point(8, 8);
+            logoutButton.Name = "logoutButton";
+            logoutButton.Size = new Size(75, 23);
+            logoutButton.TabIndex = 1;
+            logoutButton.Text = "Logout";
+            logoutButton.UseVisualStyleBackColor = true;
+            logoutButton.Click += logoutButton_Click;
+            // 
+            // closeButton
+            // 
+            closeButton.Location = new Point(16, 16);
+            closeButton.Name = "closeButton";
+            closeButton.Size = new Size(75, 23);
+            closeButton.TabIndex = 2;
+            closeButton.Text = "Close";
+            closeButton.UseVisualStyleBackColor = true;
+            closeButton.Click += closeButton_Click;
+            // 
+            // AccountForm_LoggedIn
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(644, 450);
+            Controls.Add(closeButton);
+            Controls.Add(logoutButton);
+            Controls.Add(statusTextBox);
+            Name = "AccountForm_LoggedIn";
+            Text = "AccountForm_LoggedIn";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private TextBox statusTextBox;
+        private Button logoutButton;
     }
 }
