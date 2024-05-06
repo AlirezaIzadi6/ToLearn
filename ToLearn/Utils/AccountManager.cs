@@ -35,13 +35,13 @@ public class AccountManager
             };
             SetCurrentUser(newUser);
             Config.SaveConfig<User>(newUser);
-            _form.ShowMessage($"Login successful. Welcome {_user.Email}");
+            _form.ShowMessage($"Login successful. Welcome {_user.Email}", "Success");
             _form.Close();
             return true;
         }
         else
         {
-            _form.ShowMessage($"An error occurred.");
+            _form.ShowMessage($"An error occurred.", "Failed");
             return false;
         }
     }
@@ -57,11 +57,12 @@ public class AccountManager
         var response = requestMaker.Post("register", request);
         if (response == string.Empty)
         {
-            _form.ShowMessage(response);
+            _form.ShowMessage("Your account successfully created.", "Success");
             return true;
         }
         else
         {
+            _form.ShowMessage("registration was unsuccessful", "Failed");
             return false;
         }
     }
