@@ -10,7 +10,7 @@ public class AccountManager
 {
     private readonly ICustomForm _form;
     private static User _user;
-    private static bool _userIsLoggedIn;
+    private static bool? _userIsLoggedIn;
 
     public AccountManager(ICustomForm form)
     {
@@ -104,7 +104,11 @@ public class AccountManager
     {
         if (_userIsLoggedIn != null)
         {
-            return _userIsLoggedIn;
+            if (_userIsLoggedIn != null)
+            {
+                return true;
+            }
+            return false;
         }
         User user = GetCurrentUser();
         if (user == null)
