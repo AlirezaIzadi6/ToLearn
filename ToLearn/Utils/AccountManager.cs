@@ -45,7 +45,7 @@ public class AccountManager
             }
             else
             {
-               _form.ShowMessage($"An error occurred.", "Failed");
+                _form.ShowMessage($"An error occurred.", "Failed");
                 return false;
             }
         }
@@ -75,6 +75,13 @@ public class AccountManager
             _form.ShowMessage("registration was unsuccessful", "Failed");
             return false;
         }
+    }
+
+    public void Logout()
+    {
+        SetCurrentUser(null);
+        _userIsLoggedIn = false;
+        Config.DeleteConfig<User>();
     }
 
     public static User GetCurrentUser()
