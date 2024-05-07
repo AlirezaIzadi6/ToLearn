@@ -28,12 +28,130 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "flashcardsForm";
+            decksComboBox = new ComboBox();
+            descriptionTextBox = new TextBox();
+            learnButton = new Button();
+            reviewButton = new Button();
+            showUnitsButton = new Button();
+            editButton = new Button();
+            deleteButton = new Button();
+            createNewButton = new Button();
+            closeButton = new Button();
+            SuspendLayout();
+            // 
+            // decksComboBox
+            // 
+            decksComboBox.AccessibleName = "Choose a deck";
+            decksComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            decksComboBox.FormattingEnabled = true;
+            decksComboBox.Location = new Point(0, 0);
+            decksComboBox.Name = "decksComboBox";
+            decksComboBox.Size = new Size(121, 23);
+            decksComboBox.TabIndex = 0;
+            // 
+            // descriptionTextBox
+            // 
+            descriptionTextBox.AccessibleName = "Description";
+            descriptionTextBox.Location = new Point(8, 8);
+            descriptionTextBox.Multiline = true;
+            descriptionTextBox.Name = "descriptionTextBox";
+            descriptionTextBox.ReadOnly = true;
+            descriptionTextBox.Size = new Size(100, 23);
+            descriptionTextBox.TabIndex = 1;
+            // 
+            // learnButton
+            // 
+            learnButton.Location = new Point(16, 16);
+            learnButton.Name = "learnButton";
+            learnButton.Size = new Size(75, 23);
+            learnButton.TabIndex = 2;
+            learnButton.Text = "Learn";
+            learnButton.UseVisualStyleBackColor = true;
+            // 
+            // reviewButton
+            // 
+            reviewButton.Location = new Point(24, 24);
+            reviewButton.Name = "reviewButton";
+            reviewButton.Size = new Size(75, 23);
+            reviewButton.TabIndex = 3;
+            reviewButton.Text = "Review";
+            reviewButton.UseVisualStyleBackColor = true;
+            // 
+            // showUnitsButton
+            // 
+            showUnitsButton.Location = new Point(32, 32);
+            showUnitsButton.Name = "showUnitsButton";
+            showUnitsButton.Size = new Size(75, 23);
+            showUnitsButton.TabIndex = 4;
+            showUnitsButton.Text = "Show units";
+            showUnitsButton.UseVisualStyleBackColor = true;
+            // 
+            // editButton
+            // 
+            editButton.Location = new Point(40, 40);
+            editButton.Name = "editButton";
+            editButton.Size = new Size(75, 23);
+            editButton.TabIndex = 5;
+            editButton.Text = "Edit";
+            editButton.UseVisualStyleBackColor = true;
+            // 
+            // deleteButton
+            // 
+            deleteButton.Location = new Point(48, 48);
+            deleteButton.Name = "deleteButton";
+            deleteButton.Size = new Size(75, 23);
+            deleteButton.TabIndex = 6;
+            deleteButton.Text = "Delete";
+            deleteButton.UseVisualStyleBackColor = true;
+            // 
+            // createNewButton
+            // 
+            createNewButton.Location = new Point(56, 56);
+            createNewButton.Name = "createNewButton";
+            createNewButton.Size = new Size(75, 23);
+            createNewButton.TabIndex = 7;
+            createNewButton.Text = "Create a new deck";
+            createNewButton.UseVisualStyleBackColor = true;
+            // 
+            // closeButton
+            // 
+            closeButton.Location = new Point(64, 64);
+            closeButton.Name = "closeButton";
+            closeButton.Size = new Size(75, 23);
+            closeButton.TabIndex = 8;
+            closeButton.Text = "Close";
+            closeButton.UseVisualStyleBackColor = true;
+            // 
+            // FlashcardsForm
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(644, 450);
+            Controls.Add(closeButton);
+            Controls.Add(createNewButton);
+            Controls.Add(deleteButton);
+            Controls.Add(editButton);
+            Controls.Add(showUnitsButton);
+            Controls.Add(reviewButton);
+            Controls.Add(learnButton);
+            Controls.Add(descriptionTextBox);
+            Controls.Add(decksComboBox);
+            Name = "FlashcardsForm";
+            Text = "flashcardsForm";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private ComboBox decksComboBox;
+        private TextBox descriptionTextBox;
+        private Button learnButton;
+        private Button reviewButton;
+        private Button showUnitsButton;
+        private Button editButton;
+        private Button deleteButton;
+        private Button createNewButton;
+        private Button closeButton;
     }
 }
