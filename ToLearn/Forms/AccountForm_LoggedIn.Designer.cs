@@ -34,11 +34,22 @@
             closeButton = new Button();
             SuspendLayout();
             // 
+            // closeButton
+            // 
+            closeButton.Location = new Point(16, 16);
+            closeButton.Name = "closeButton";
+            closeButton.Size = new Size(75, 23);
+            closeButton.TabIndex = 2;
+            closeButton.Text = "Close";
+            closeButton.UseVisualStyleBackColor = true;
+            closeButton.Click += closeButton_Click;
+            // 
             // statusTextBox
             // 
             statusTextBox.AccessibleName = "Status";
-            statusTextBox.Location = new Point(0, 0);
+            statusTextBox.Location = new Point(0, -1);
             statusTextBox.Name = "statusTextBox";
+            statusTextBox.ReadOnly = true;
             statusTextBox.Size = new Size(100, 23);
             statusTextBox.TabIndex = 0;
             // 
@@ -52,16 +63,6 @@
             logoutButton.UseVisualStyleBackColor = true;
             logoutButton.Click += logoutButton_Click;
             // 
-            // closeButton
-            // 
-            closeButton.Location = new Point(16, 16);
-            closeButton.Name = "closeButton";
-            closeButton.Size = new Size(75, 23);
-            closeButton.TabIndex = 2;
-            closeButton.Text = "Close";
-            closeButton.UseVisualStyleBackColor = true;
-            closeButton.Click += closeButton_Click;
-            // 
             // AccountForm_LoggedIn
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -71,7 +72,8 @@
             Controls.Add(logoutButton);
             Controls.Add(statusTextBox);
             Name = "AccountForm_LoggedIn";
-            Text = "AccountForm_LoggedIn";
+            Text = "Account";
+            Load += AccountForm_LoggedIn_Load;
             ResumeLayout(false);
             PerformLayout();
         }
