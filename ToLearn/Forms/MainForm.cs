@@ -47,19 +47,27 @@ public partial class MainForm : CustomForm
             var accountForm = new AccountForm_NotLoggedIn();
             accountForm.ShowDialog();
         }
+        SetLayout();
         this.Visible = true;
     }
 
     private void MainForm_Load(object sender, EventArgs e)
     {
         AccountManager.LoadUser();
-        if (_accountManager.UserIsLoggedIn())
+        SetLayout();
+    }
+
+    private void SetLayout()
+    {
+        if (!_accountManager.UserIsLoggedIn())
         {
-            ShowMessage("You are logged in.");
+            flashcardsButton.Visible = false;
+            conjugationTrainingButton.Visible = false;
         }
         else
         {
-            ShowMessage("You need to log in");
+            flashcardsButton.Visible = true;
+            conjugationTrainingButton.Visible = true;
         }
     }
 }
