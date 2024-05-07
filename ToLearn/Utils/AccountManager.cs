@@ -39,6 +39,7 @@ public class AccountManager
                 };
                 SetCurrentUser(newUser);
                 Config.SaveConfig<User>(newUser);
+                _userIsLoggedIn = true;
                 _form.ShowMessage($"Login successful. Welcome {_user.Email}", "Success");
                 _form.Close();
                 return true;
@@ -111,7 +112,7 @@ public class AccountManager
     {
         if (_userIsLoggedIn != null)
         {
-            if (_userIsLoggedIn != null)
+            if (_userIsLoggedIn == true)
             {
                 return true;
             }
