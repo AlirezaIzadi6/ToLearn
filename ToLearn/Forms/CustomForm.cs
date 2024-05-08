@@ -9,8 +9,6 @@ namespace ToLearn.Forms;
 
 public class CustomForm : Form, ICustomForm
 {
-    private readonly AccountManager _accountManager;
-
     public void ShowMessage(string message, string caption = "")
     {
         MessageBox.Show(message, caption);
@@ -23,7 +21,11 @@ public class CustomForm : Form, ICustomForm
 
     public void SetComboBox(string tag, List<string> options)
     {
-        ComboBox comboBox = (ComboBox)FindByTag(tag);
+        ComboBox? comboBox = (ComboBox?)FindByTag(tag);
+        if (comboBox == null)
+        {
+            return;
+        }
         comboBox.Items.Clear();
         foreach (string option in options)
         {
@@ -35,7 +37,7 @@ public class CustomForm : Form, ICustomForm
         }
     }
 
-    public Control FindByTag(string tag)
+    public Control? FindByTag(string tag)
     {
         var controls = this.Controls;
         foreach (Control control in controls)
@@ -52,7 +54,7 @@ public class CustomForm : Form, ICustomForm
 public interface ICustomForm
 {
     public void ShowMessage(string message, string caption = "");
-    public Control FindByTag(string tag);
+    public Control? FindByTag(string tag);
     public void SetComboBox(string tag, List<string> options);
     public void Close();
 }

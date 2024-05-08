@@ -9,7 +9,7 @@ namespace ToLearn.Utils;
 public class AccountManager
 {
     private readonly ICustomForm _form;
-    private static User _user;
+    private static User? _user;
     private static bool? _userIsLoggedIn;
 
     public AccountManager(ICustomForm form)
@@ -31,12 +31,7 @@ public class AccountManager
             LoginResponse? loginResponse = JsonSerializer.Deserialize<LoginResponse>(response);
             if (loginResponse?.accessToken != null)
             {
-                var newUser = new User()
-                {
-                    Email = request.Email,
-                    Password = request.Password,
-                    Token = loginResponse.accessToken
-                };
+                var newUser = new User(request.Email, request.Password, loginResponse.accessToken);
                 SetCurrentUser(newUser);
                 Config.SaveConfig<User>(newUser);
                 _userIsLoggedIn = true;
@@ -85,12 +80,12 @@ public class AccountManager
         Config.DeleteConfig<User>();
     }
 
-    public static User GetCurrentUser()
+    public static User? GetCurrentUser()
     {
         return _user;
     }
 
-    private static void SetCurrentUser(User newUser)
+    private static void SetCurrentUser(User? newUser)
     {
         _user = newUser;
     }
@@ -118,7 +113,7 @@ public class AccountManager
             }
             return false;
         }
-        User user = GetCurrentUser();
+        User? user = GetCurrentUser();
         if (user == null)
         {
             _userIsLoggedIn = false;
@@ -131,7 +126,7 @@ public class AccountManager
             _userIsLoggedIn = false;
             return false;
         }
-        var userInfo = JsonSerializer.Deserialize<UserInfo>(response);
+        UserInfo? userInfo = JsonSerializer.Deserialize<UserInfo>(response);
         if (userInfo.email == null)
         {
             _userIsLoggedIn = false;
