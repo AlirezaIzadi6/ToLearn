@@ -7,14 +7,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ToLearn.Utils;
 
-namespace ToLearn.Forms
+namespace ToLearn.Forms;
+
+public partial class FlashcardsForm : CustomForm
 {
-    public partial class FlashcardsForm : Form
+    private readonly FlashcardsManager _flashcardsManager;
+
+    public FlashcardsForm()
     {
-        public FlashcardsForm()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+        _flashcardsManager = new FlashcardsManager(this);
+    }
+
+    private void FlashcardsForm_Load(object sender, EventArgs e)
+    {
+        _flashcardsManager.FillDecks();
     }
 }

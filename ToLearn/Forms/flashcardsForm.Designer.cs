@@ -138,6 +138,7 @@
             Controls.Add(decksComboBox);
             Name = "FlashcardsForm";
             Text = "flashcardsForm";
+            Load += FlashcardsForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }

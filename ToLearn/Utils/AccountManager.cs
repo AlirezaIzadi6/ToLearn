@@ -131,9 +131,6 @@ public class AccountManager
             _userIsLoggedIn = false;
             return false;
         }
-        {
-            
-        }
         var userInfo = JsonSerializer.Deserialize<UserInfo>(response);
         if (userInfo.email == null)
         {
