@@ -126,6 +126,14 @@ public class AccountManager
         }
         var requestMaker = new RequestMaker(user);
         var response = requestMaker.Get("manage/info");
+        if (response == string.Empty)
+        {
+            _userIsLoggedIn = false;
+            return false;
+        }
+        {
+            
+        }
         var userInfo = JsonSerializer.Deserialize<UserInfo>(response);
         if (userInfo.email == null)
         {
