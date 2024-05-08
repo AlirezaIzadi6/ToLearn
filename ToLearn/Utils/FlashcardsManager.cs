@@ -28,7 +28,7 @@ public class FlashcardsManager
         var options = new List<string>();
         foreach (var deck in decks)
         {
-            options.Add(deck.title);
+            options.Add($"{deck.title} by {deck.creator}");
         }
         _form.SetComboBox("Decks", options);
     }
