@@ -48,6 +48,7 @@
             decksComboBox.Name = "decksComboBox";
             decksComboBox.Size = new Size(121, 23);
             decksComboBox.TabIndex = 0;
+            decksComboBox.Tag = "Decks";
             // 
             // descriptionTextBox
             // 

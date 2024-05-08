@@ -23,6 +23,11 @@ public class FlashcardsManager
         var requestMaker = new RequestMaker(AccountManager.GetCurrentUser());
         var response = requestMaker.Get("api/Decks");
         List<Deck> decks = JsonSerializer.Deserialize<List<Deck>>(response);
-        _form.ShowMessage(decks.Count.ToString());
+        var options = new List<string>();
+        foreach (var deck in decks)
+        {
+            options.Add(deck.title);
+        }
+        _form.SetComboBox("Decks", options);
     }
 }
