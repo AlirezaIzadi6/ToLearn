@@ -20,10 +20,39 @@ public class CustomForm : Form, ICustomForm
     {
         this.Close();
     }
+
+    public void SetComboBox(string tag, List<string> options)
+    {
+        ComboBox comboBox = (ComboBox)FindByTag(tag);
+        comboBox.Items.Clear();
+        foreach (string option in options)
+        {
+            if (option == null)
+            {
+                continue;
+            }
+            comboBox.Items.Add(option);
+        }
+    }
+
+    public Control FindByTag(string tag)
+    {
+        var controls = this.Controls;
+        foreach (Control control in controls)
+        {
+            if (control.Tag != null && control.Tag.ToString() == tag)
+            {
+                return control;
+            }
+        }
+        return null;
+    }
 }
 
 public interface ICustomForm
 {
     public void ShowMessage(string message, string caption = "");
+    public Control FindByTag(string tag);
+    public void SetComboBox(string tag, List<string> options);
     public void Close();
 }
