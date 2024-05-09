@@ -34,10 +34,10 @@ public partial class MainForm : CustomForm
         this.Visible = true;
     }
 
-    private void accountButton_Click(object sender, EventArgs e)
+    private async void accountButton_Click(object sender, EventArgs e)
     {
         this.Visible = false;
-        if (_accountManager.UserIsLoggedIn())
+        if (await _accountManager.UserIsLoggedIn())
         {
             var accountForm = new AccountForm_LoggedIn();
             accountForm.ShowDialog();
@@ -57,9 +57,10 @@ public partial class MainForm : CustomForm
         SetLayout();
     }
 
-    private void SetLayout()
+    private async void SetLayout()
     {
-        if (!_accountManager.UserIsLoggedIn())
+        bool isLoggedIn = await _accountManager.UserIsLoggedIn();
+        if (!isLoggedIn)
         {
             flashcardsButton.Visible = false;
             conjugationTrainingButton.Visible = false;

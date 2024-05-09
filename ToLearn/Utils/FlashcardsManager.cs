@@ -19,10 +19,10 @@ public class FlashcardsManager
         _form = form;
     }
 
-    public void FillDecks()
+    public async void FillDecks()
     {
         var requestMaker = new RequestMaker(AccountManager.GetCurrentUser());
-        var response = requestMaker.Get("api/Decks");
+        var response = await requestMaker.Get("api/Decks");
         List<Deck> decks = JsonSerializer.Deserialize<List<Deck>>(response);
         SetDecks(decks);
         var options = new List<string>();

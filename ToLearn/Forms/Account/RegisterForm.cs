@@ -26,8 +26,8 @@ public partial class RegisterForm : CustomForm
         this.Close();
     }
 
-    private void registerButton_Click(object sender, EventArgs e)
+    private async void registerButton_Click(object sender, EventArgs e)
     {
-        _accountManager.Register(emailTextBox.Text, passwordTextBox.Text);
+        await _accountManager.Register(emailTextBox.Text, passwordTextBox.Text);
     }
 }

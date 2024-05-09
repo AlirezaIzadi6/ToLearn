@@ -17,7 +17,7 @@ public class AccountManager
         _form = form;
     }
 
-    public bool Login(string email, string password)
+    public async Task<bool> Login(string email, string password)
     {
         var request = new Request()
         {
@@ -27,7 +27,7 @@ public class AccountManager
         var requestMaker = new RequestMaker();
         try
         {
-            var response = requestMaker.Post("login", request);
+            var response = await requestMaker.Post("login", request);
             LoginResponse? loginResponse = JsonSerializer.Deserialize<LoginResponse>(response);
             if (loginResponse?.accessToken != null)
             {
@@ -52,7 +52,7 @@ public class AccountManager
         }
     }
 
-    public bool Register(string email, string password)
+    public async Task<bool> Register(string email, string password)
     {
         var request = new Request()
         {
@@ -60,7 +60,7 @@ public class AccountManager
             Password = password
         };
         var requestMaker = new RequestMaker();
-        var response = requestMaker.Post("register", request);
+        var response = await requestMaker.Post("register", request);
         if (response == string.Empty)
         {
             _form.ShowMessage("Your account successfully created.", "Success");
@@ -103,7 +103,7 @@ public class AccountManager
         catch { }
     }
 
-    public bool UserIsLoggedIn()
+    public async Task<bool> UserIsLoggedIn()
     {
         if (_userIsLoggedIn != null)
         {
@@ -120,7 +120,7 @@ public class AccountManager
             return false;
         }
         var requestMaker = new RequestMaker(user);
-        var response = requestMaker.Get("manage/info");
+        var response = await requestMaker.Get("manage/info");
         if (response == string.Empty)
         {
             _userIsLoggedIn = false;

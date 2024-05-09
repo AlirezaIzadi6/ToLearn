@@ -30,10 +30,10 @@ public partial class LoginForm : CustomForm
         this.Close();
     }
 
-    private void loginButton_Click(object sender, EventArgs e)
+    private async void loginButton_Click(object sender, EventArgs e)
     {
         string email = emailTextBox.Text;
         string password = passwordTextBox.Text;
-        _accountManager.Login(email, password);
+        await _accountManager.Login(email, password);
     }
 }

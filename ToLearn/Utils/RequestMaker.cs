@@ -23,15 +23,15 @@ public class RequestMaker
         }
     }
 
-    public string Get(string path)
+    public async Task<string> Get(string path)
     {
-        return _client.GetAsync(path).Result.Content
-            .ReadAsStringAsync().Result;
+        return await _client.GetAsync(path).Result.Content
+            .ReadAsStringAsync();
     }
 
-    public string Post(string path, Object obj)
+    public async Task<string> Post(string path, Object obj)
     {
-        var response = _client.PostAsJsonAsync<Object>(path, obj);
-        return response.Result.Content.ReadAsStringAsync().Result;
+        var response = await _client.PostAsJsonAsync<Object>(path, obj);
+        return response.Content.ReadAsStringAsync().Result;
     }
 }
