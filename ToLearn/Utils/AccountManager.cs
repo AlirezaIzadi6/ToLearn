@@ -103,36 +103,40 @@ public class AccountManager
         catch { }
     }
 
-    public async Task<bool> UserIsLoggedIn()
+    public async Task<bool> UserIsLoggedIn(List<string> controlTags = null)
     {
+        if (controlTags == null)
+        {
+            controlTags = new List<string>();
+        }
+
         if (_userIsLoggedIn != null)
         {
-            if (_userIsLoggedIn == true)
-            {
-                return true;
-            }
-            return false;
+            _form.ChangeVisibility(controlTags, (bool)_userIsLoggedIn);
+            return (bool)_userIsLoggedIn;
         }
         User? user = GetCurrentUser();
         if (user == null)
         {
             _userIsLoggedIn = false;
+            _form.ChangeVisibility(controlTags, false);
             return false;
         }
+
         var requestMaker = new RequestMaker(user);
-        var response = await requestMaker.Get("manage/info");
-        if (response == string.Empty)
+        try
         {
-            _userIsLoggedIn = false;
+            var response = await requestMaker.Get("manage/info");
+            UserInfo? userInfo = JsonSerializer.Deserialize<UserInfo>(response);
+            _userIsLoggedIn = userInfo.email == null ? false : true;
+            _form.ChangeVisibility(controlTags, (bool)_userIsLoggedIn);
+            return (bool)_userIsLoggedIn;
+        }
+        catch (Exception ex)
+        {
+            _form.ShowMessage(ex.Message, "Error checking login");
+            _form.ChangeVisibility(controlTags, false);
             return false;
         }
-        UserInfo? userInfo = JsonSerializer.Deserialize<UserInfo>(response);
-        if (userInfo.email == null)
-        {
-            _userIsLoggedIn = false;
-            return false;
-        }
-        _userIsLoggedIn = true;
-        return true;
     }
 }

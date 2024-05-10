@@ -36,39 +36,25 @@ public partial class MainForm : CustomForm
 
     private async void accountButton_Click(object sender, EventArgs e)
     {
-        this.Visible = false;
         if (await _accountManager.UserIsLoggedIn())
         {
             var accountForm = new AccountForm_LoggedIn();
+            this.Visible = false;
             accountForm.ShowDialog();
         }
         else
         {
             var accountForm = new AccountForm_NotLoggedIn();
+            this.Visible = false;
             accountForm.ShowDialog();
         }
-        SetLayout();
         this.Visible = true;
+        await _accountManager.UserIsLoggedIn(new() { "Flashcards", "ConjugationTraining" });
     }
 
-    private void MainForm_Load(object sender, EventArgs e)
+    private async void MainForm_Load(object sender, EventArgs e)
     {
         AccountManager.LoadUser();
-        SetLayout();
-    }
-
-    private async void SetLayout()
-    {
-        bool isLoggedIn = await _accountManager.UserIsLoggedIn();
-        if (!isLoggedIn)
-        {
-            flashcardsButton.Visible = false;
-            conjugationTrainingButton.Visible = false;
-        }
-        else
-        {
-            flashcardsButton.Visible = true;
-            conjugationTrainingButton.Visible = true;
-        }
+        await _accountManager.UserIsLoggedIn(new() { "Flashcards", "ConjugationTraining" });
     }
 }

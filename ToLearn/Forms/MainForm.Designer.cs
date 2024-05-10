@@ -40,8 +40,10 @@
             flashcardsButton.Name = "flashcardsButton";
             flashcardsButton.Size = new Size(75, 23);
             flashcardsButton.TabIndex = 0;
+            flashcardsButton.Tag = "Flashcards";
             flashcardsButton.Text = "Flashcards";
             flashcardsButton.UseVisualStyleBackColor = true;
+            flashcardsButton.Visible = false;
             flashcardsButton.Click += flashcardsButton_Click;
             // 
             // conjugationTrainingButton
@@ -50,8 +52,10 @@
             conjugationTrainingButton.Name = "conjugationTrainingButton";
             conjugationTrainingButton.Size = new Size(75, 23);
             conjugationTrainingButton.TabIndex = 1;
+            conjugationTrainingButton.Tag = "ConjugationTraining";
             conjugationTrainingButton.Text = "Conjugation training";
             conjugationTrainingButton.UseVisualStyleBackColor = true;
+            conjugationTrainingButton.Visible = false;
             conjugationTrainingButton.Click += conjugationTrainingButton_Click;
             // 
             // accountButton
