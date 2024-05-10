@@ -37,6 +37,15 @@ public class CustomForm : Form, ICustomForm
         }
     }
 
+    public void ChangeVisibility(List<string> tags, bool visible)
+    {
+        foreach (string tag in tags)
+        {
+            var control = FindByTag(tag);
+            control.Visible = visible;
+        }
+    }
+
     public Control? FindByTag(string tag)
     {
         var controls = this.Controls;
@@ -56,5 +65,6 @@ public interface ICustomForm
     public void ShowMessage(string message, string caption = "");
     public Control? FindByTag(string tag);
     public void SetComboBox(string tag, List<string> options);
+    public void ChangeVisibility(List<string>  tag, bool visible);
     public void Close();
 }
