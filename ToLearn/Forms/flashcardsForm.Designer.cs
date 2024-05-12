@@ -114,6 +114,7 @@
             createNewButton.TabIndex = 7;
             createNewButton.Text = "Create a new deck";
             createNewButton.UseVisualStyleBackColor = true;
+            createNewButton.Click += createNewButton_Click;
             // 
             // closeButton
             // 
@@ -123,6 +124,7 @@
             closeButton.TabIndex = 8;
             closeButton.Text = "Close";
             closeButton.UseVisualStyleBackColor = true;
+            closeButton.Click += closeButton_Click;
             // 
             // FlashcardsForm
             // 

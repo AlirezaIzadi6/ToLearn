@@ -43,6 +43,7 @@
             createButton.Tag = "Create";
             createButton.Text = "Create";
             createButton.UseVisualStyleBackColor = true;
+            createButton.Click += createButton_Click;
             // 
             // titleTextBox
             // 

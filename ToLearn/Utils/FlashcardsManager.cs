@@ -33,6 +33,33 @@ public class FlashcardsManager
         _form.SetComboBox("Decks", options);
     }
 
+    public async Task CreateDeck(string title, string description)
+    {
+        var newDeck = new Deck()
+        {
+            title = title,
+            description = description
+        };
+        var requestMaker = new RequestMaker(AccountManager.GetCurrentUser());
+        var response = await requestMaker.Post("api/decks", newDeck);
+        try
+        {
+            Deck createdDeck = JsonSerializer.Deserialize<Deck>(response);
+            if (createdDeck.title != null)
+            {
+                _form.ShowMessage("Deck created successfully.", "Success");
+            }
+            else
+            {
+                _form.ShowMessage("Deck not created.");
+            }
+        }
+        catch (Exception ex)
+        {
+            _form.ShowMessage(ex.Message);
+        }
+    }
+
     public static List<Deck> GetDecks()
     {
         return _decks;

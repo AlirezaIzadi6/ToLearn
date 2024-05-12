@@ -13,11 +13,18 @@ namespace ToLearn.Forms.Flashcards;
 
 public partial class CreateDeckForm : CustomForm
 {
-    private readonly AccountManager _accountManager;
+    private readonly FlashcardsManager _flashcardsManager;
 
     public CreateDeckForm()
     {
         InitializeComponent();
-        _accountManager = new AccountManager(this);
+        _flashcardsManager = new FlashcardsManager(this);
+    }
+
+    private async void createButton_Click(object sender, EventArgs e)
+    {
+        string title = titleTextBox.Text;
+        string description = descriptionTextBox.Text;
+        await _flashcardsManager.CreateDeck(title, description);
     }
 }

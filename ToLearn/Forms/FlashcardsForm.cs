@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ToLearn.Forms.Flashcards;
 using ToLearn.Models.Flashcards;
 using ToLearn.Utils;
 
@@ -32,5 +33,18 @@ public partial class FlashcardsForm : CustomForm
         int index = decksComboBox.SelectedIndex;
         List<Deck> decks = FlashcardsManager.GetDecks();
         descriptionTextBox.Text = decks[index].description;
+    }
+
+    private void createNewButton_Click(object sender, EventArgs e)
+    {
+        var createDeckForm = new CreateDeckForm();
+        Visible = false;
+        createDeckForm.ShowDialog();
+        Visible = true;
+    }
+
+    private void closeButton_Click(object sender, EventArgs e)
+    {
+        CloseForm();
     }
 }
