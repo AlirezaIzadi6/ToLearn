@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -44,10 +45,16 @@ public class FlashcardsManager
         var response = await requestMaker.Post("api/decks", newDeck);
         try
         {
-            Deck createdDeck = JsonSerializer.Deserialize<Deck>(response);
-            if (createdDeck.title != null)
+            if (response == "")
             {
-                _form.ShowMessage("Deck created successfully.", "Success");
+                _form.ShowMessage("An error occurred");
+                return;
+            }
+            Deck createdDeck = JsonSerializer.Deserialize<Deck>(response);
+            if (createdDeck.creator != null)
+            {
+                _form.ShowMessage("Deck created successfully.", createdDeck.creator);
+                _form.Close();
             }
             else
             {
@@ -56,7 +63,7 @@ public class FlashcardsManager
         }
         catch (Exception ex)
         {
-            _form.ShowMessage(ex.Message);
+            _form.ShowMessage(response);
         }
     }
 
