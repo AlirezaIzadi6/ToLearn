@@ -72,6 +72,7 @@
             cancelButton.Tag = "Cancel";
             cancelButton.Text = "Cancel";
             cancelButton.UseVisualStyleBackColor = true;
+            cancelButton.Click += cancelButton_Click;
             // 
             // CreateDeckForm
             // 
