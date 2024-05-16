@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ToLearn.Utils;
 using ToLearn.Models.RequestMaker;
+using ToLearn.Models.Errors;
 
 namespace ToLearn.Forms;
 
@@ -66,16 +68,35 @@ public class CustomForm : Form, ICustomForm
         switch(response.StatusCode)
         {
             case 400:
-                var error = JsonSerializer.Deserialize<Error>(response.Body);
-                ShowMessage(error.message, error.title);
+                var error = JsonSerializer.Deserialize<CustomError>(response.Body);
+                if (error.message != null)
+                {
+                    ShowMessage(error.message, error.title);
+                }
+                else
+                {
+                    string errors = GetErrors(response.Body);
+                    ShowMessage(errors, error.title);
+                }
                 break;
             case 401:
-                ShowMessage("You are not allowed to access this.", "Not authorized");
+                ShowMessage("You are not authorized.", "Not authorized");
                 break;
             case 404:
                 ShowMessage("This resource does not exist.", "Not  found");
                 break;
         }
+    }
+
+    private string GetErrors(string body)
+    {
+        var errors = new List<string>();
+        var matches = Regex.Matches(body, "(?<=\\[\")[^\\]\"]+(?=\"\\])");
+        foreach (Match match in matches)
+        {
+            errors.Add(match.Value);
+        }
+        return string.Join('\n', errors);
     }
 }
 
