@@ -4,6 +4,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using ToLearn.Models.Account;
+using ToLearn.Models.RequestMaker;
 
 namespace ToLearn.Utils;
 
@@ -23,15 +24,25 @@ public class RequestMaker
         }
     }
 
-    public async Task<string> Get(string path)
+    public async Task<Response> Get(string path)
     {
-        return await _client.GetAsync(path).Result.Content
-            .ReadAsStringAsync();
+        var result = await _client.GetAsync(path);
+        var response = new Response()
+        {
+            StatusCode = (int)result.StatusCode,
+            Body = result.Content.ReadAsStringAsync().Result
+        };
+        return response;
     }
 
-    public async Task<string> Post(string path, Object obj)
+    public async Task<Response> Post(string path, Object obj)
     {
-        var response = await _client.PostAsJsonAsync<Object>(path, obj);
-        return response.Content.ReadAsStringAsync().Result;
+        var result = await _client.PostAsJsonAsync<Object>(path, obj);
+        var response = new Response()
+        {
+            StatusCode = (int)result.StatusCode,
+            Body = result.Content.ReadAsStringAsync().Result
+        };
+        return response;
     }
 }
