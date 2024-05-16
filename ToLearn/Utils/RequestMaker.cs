@@ -45,4 +45,15 @@ public class RequestMaker
         };
         return response;
     }
+
+    public async Task<Response> Put(string path, Object obj)
+    {
+        var result = await _client.PutAsJsonAsync<Object>(path, obj);
+        var response = new Response()
+        {
+            StatusCode = (int)result.StatusCode,
+            Body = result.Content.ReadAsStringAsync().Result
+        };
+        return response;
+    }
 }
