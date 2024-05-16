@@ -47,4 +47,18 @@ public partial class FlashcardsForm : CustomForm
     {
         CloseForm();
     }
+
+    private void editButton_Click(object sender, EventArgs e)
+    {
+        int selectedIndex = decksComboBox.SelectedIndex;
+        if (selectedIndex == -1)
+        {
+            return;
+        }
+        Deck selectedDeck = FlashcardsManager.GetDecks()[selectedIndex];
+        var editDeckForm = new EditDeckForm(selectedDeck);
+        Visible = false;
+        editDeckForm.ShowDialog();
+        Visible = true;
+    }
 }
