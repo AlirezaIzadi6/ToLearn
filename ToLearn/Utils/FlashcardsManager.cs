@@ -72,6 +72,33 @@ public class FlashcardsManager
         }
     }
 
+    public async Task EditDeck(int id, string title, string description)
+    {
+        var deck = new Deck()
+        {
+            id = id,
+            title = title,
+            description = description
+        };
+        var requestMaker = new RequestMaker( AccountManager.GetCurrentUser());
+        try
+        {
+            var response = await requestMaker.Put($"api/decks/{id}", deck);
+            if (response.StatusCode != 204)
+            {
+                _form.ShowError(response);
+                return;
+            }
+            _form.ShowMessage("Your changes are saved successfully.", "Success");
+            _form.Close();
+            return;
+        }
+        catch(Exception ex)
+        {
+            _form.ShowMessage(ex.Message, "Error");
+        }
+    }
+
     public static List<Deck> GetDecks()
     {
         return _decks;
