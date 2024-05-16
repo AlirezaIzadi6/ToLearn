@@ -3,6 +3,7 @@ using System.Text.Json;
 using ToLearn.Forms;
 using ToLearn.Forms.Account;
 using ToLearn.Models.Account;
+using ToLearn.Models.RequestMaker;
 
 namespace ToLearn.Utils;
 
@@ -28,22 +29,19 @@ public class AccountManager
         try
         {
             var response = await requestMaker.Post("login", request);
-            LoginResponse? loginResponse = JsonSerializer.Deserialize<LoginResponse>(response);
-            if (loginResponse?.accessToken != null)
+            if (response.StatusCode != 200)
             {
-                var newUser = new User(request.Email, request.Password, loginResponse.accessToken);
-                SetCurrentUser(newUser);
-                Config.SaveConfig<User>(newUser);
-                _userIsLoggedIn = true;
-                _form.ShowMessage($"Login successful. Welcome {_user.Email}", "Success");
-                _form.Close();
-                return true;
-            }
-            else
-            {
-                _form.ShowMessage($"An error occurred.", "Failed");
+                _form.ShowError(response);
                 return false;
             }
+            LoginResponse? loginResponse = JsonSerializer.Deserialize<LoginResponse>(response.Body);
+            var newUser = new User(request.Email, request.Password, loginResponse.accessToken);
+            SetCurrentUser(newUser);
+            Config.SaveConfig<User>(newUser);
+            _userIsLoggedIn = true;
+            _form.ShowMessage($"Login successful. Welcome {_user.Email}", "Success");
+            _form.Close();
+            return true;
         }
         catch (Exception ex)
         {
@@ -61,14 +59,19 @@ public class AccountManager
         };
         var requestMaker = new RequestMaker();
         var response = await requestMaker.Post("register", request);
-        if (response == string.Empty)
+        try
         {
+            if (response.StatusCode != 200)
+            {
+                _form.ShowError(response);
+                return false;
+            }
             _form.ShowMessage("Your account successfully created.", "Success");
             return true;
         }
-        else
+        catch (Exception ex)
         {
-            _form.ShowMessage("registration was unsuccessful", "Failed");
+            _form.ShowMessage(ex.Message, "Error");
             return false;
         }
     }
@@ -127,7 +130,14 @@ public class AccountManager
         try
         {
             var response = await requestMaker.Get("manage/info");
-            UserInfo? userInfo = JsonSerializer.Deserialize<UserInfo>(response);
+            if (response.StatusCode != 200)
+            {
+                _userIsLoggedIn = false;
+                _form.ChangeVisibility(controlTags, false);
+                _form.ShowError(response);
+                return false;
+            }
+            UserInfo? userInfo = JsonSerializer.Deserialize<UserInfo>(response.Body);
             _userIsLoggedIn = userInfo.email == null ? false : true;
             _form.ChangeVisibility(controlTags, (bool)_userIsLoggedIn);
             return (bool)_userIsLoggedIn;

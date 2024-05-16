@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using ToLearn.Forms;
 using ToLearn.Models.Flashcards;
+using ToLearn.Models.RequestMaker;
 
 namespace ToLearn.Utils;
 
@@ -23,15 +24,26 @@ public class FlashcardsManager
     public async void FillDecks()
     {
         var requestMaker = new RequestMaker(AccountManager.GetCurrentUser());
-        var response = await requestMaker.Get("api/Decks");
-        List<Deck> decks = JsonSerializer.Deserialize<List<Deck>>(response);
-        SetDecks(decks);
-        var options = new List<string>();
-        foreach (var deck in decks)
+        try
         {
-            options.Add($"{deck.title} by {deck.creator}");
+            var response = await requestMaker.Get("api/Decks");
+            if (response.StatusCode != 200)
+            {
+                _form.ShowError(response);
+            }
+            List<Deck> decks = JsonSerializer.Deserialize<List<Deck>>(response.Body);
+            SetDecks(decks);
+            var options = new List<string>();
+            foreach (var deck in decks)
+            {
+                options.Add($"{deck.title} by {deck.creator}");
+            }
+            _form.SetComboBox("Decks", options);
         }
-        _form.SetComboBox("Decks", options);
+        catch (Exception ex)
+        {
+            _form.ShowMessage(ex.Message, "Error");
+        }
     }
 
     public async Task CreateDeck(string title, string description)
@@ -42,28 +54,21 @@ public class FlashcardsManager
             description = description
         };
         var requestMaker = new RequestMaker(AccountManager.GetCurrentUser());
-        var response = await requestMaker.Post("api/decks", newDeck);
         try
         {
-            if (response == "")
+            var response = await requestMaker.Post("api/decks", newDeck);
+            if (response.StatusCode != 201)
             {
-                _form.ShowMessage("An error occurred");
+                _form.ShowError(response);
                 return;
             }
-            Deck createdDeck = JsonSerializer.Deserialize<Deck>(response);
-            if (createdDeck.creator != null)
-            {
-                _form.ShowMessage("Deck created successfully.", createdDeck.creator);
-                _form.Close();
-            }
-            else
-            {
-                _form.ShowMessage("Deck not created.");
-            }
+            Deck createdDeck = JsonSerializer.Deserialize<Deck>(response.Body);
+            _form.ShowMessage("Deck created successfully.", "Success");
+            _form.Close();
         }
         catch (Exception ex)
         {
-            _form.ShowMessage(response);
+            _form.ShowMessage(ex.Message, "Error");
         }
     }
 
