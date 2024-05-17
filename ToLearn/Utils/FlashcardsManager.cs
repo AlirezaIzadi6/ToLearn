@@ -152,6 +152,34 @@ public class FlashcardsManager
         }
     }
 
+    public async Task<bool> CreateUnit(int id, string name, string description)
+    {
+        var newUnit = new Unit()
+        {
+            name = name,
+            description = description,
+            deckId = id
+        };
+        var requestMaker = new RequestMaker(AccountManager.GetCurrentUser());
+        try
+        {
+            var response = await requestMaker.Post("api/units", newUnit);
+            if (response.StatusCode != 201)
+            {
+                _form.ShowError(response);
+                return false;
+            }
+            _form.ShowMessage("Unit created successfully.", "Success");
+            _form.Close();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _form.ShowMessage(ex.Message, "Error");
+            return false;
+        }
+    }
+
     public static List<Deck> GetDecks()
     {
         return _decks;
