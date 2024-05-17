@@ -99,6 +99,30 @@ public class FlashcardsManager
         }
     }
 
+    public async Task DeleteDeck(Deck deck)
+    {
+        bool confirm = _form.ShowQuestion($"Are you sure to deleete {deck.title}?", "Confirm");
+        if (!confirm)
+        {
+            return;
+        }
+        var requestMaker = new RequestMaker(AccountManager.GetCurrentUser());
+        try
+        {
+            var response = await requestMaker.Delete($"api/decks/{deck.id}");
+            if (response.StatusCode != 204)
+            {
+                _form.ShowError(response);
+                return;
+            }
+            _form.ShowMessage("Deck deleted successfully.", "Success");
+        }
+        catch (Exception ex)
+        {
+            _form.ShowMessage(ex.Message, "Error");
+        }
+    }
+
     public static List<Deck> GetDecks()
     {
         return _decks;
