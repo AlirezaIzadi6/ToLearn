@@ -15,6 +15,8 @@ public class FlashcardsManager
 {
     private readonly ICustomForm _form;
     private static List<Deck> _decks;
+    private static List<Unit> _units;
+    private static List<Card> _cards;
 
     public FlashcardsManager(ICustomForm form)
     {
@@ -30,6 +32,7 @@ public class FlashcardsManager
             if (response.StatusCode != 200)
             {
                 _form.ShowError(response);
+                return;
             }
             List<Deck> decks = JsonSerializer.Deserialize<List<Deck>>(response.Body);
             SetDecks(decks);
@@ -123,6 +126,32 @@ public class FlashcardsManager
         }
     }
 
+    public async Task ShowUnits(Deck deck)
+    {
+        var requestMaker = new RequestMaker(AccountManager.GetCurrentUser());
+        try
+        {
+            var response = await requestMaker.Get($"api/units/deck{deck.id}");
+            if (response.StatusCode != 200)
+            {
+                _form.ShowError(response);
+                return;
+            }
+            List<Unit> units = JsonSerializer.Deserialize<List<Unit>>(response.Body);
+            SetUnits(units);
+            var options = new List<string>();
+            foreach (Unit unit in units)
+            {
+                options.Add(unit.name);
+            }
+            _form.SetComboBox("Units", options);
+        }
+        catch(Exception ex)
+        {
+            _form.ShowMessage(ex.Message, "Error");
+        }
+    }
+
     public static List<Deck> GetDecks()
     {
         return _decks;
@@ -131,5 +160,15 @@ public class FlashcardsManager
     public static void SetDecks(List<Deck> decks)
     {
         _decks = decks;
+    }
+
+    public static void SetUnits(List<Unit> units)
+    {
+        _units = units;
+    }
+
+    public static List<Unit> GetUnits()
+    {
+        return _units;
     }
 }
