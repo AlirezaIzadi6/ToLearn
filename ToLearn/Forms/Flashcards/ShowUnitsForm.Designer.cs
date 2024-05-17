@@ -75,6 +75,7 @@
             createNewUnitButton.Tag = "CreateNewUnit";
             createNewUnitButton.Text = "Create a new unit";
             createNewUnitButton.UseVisualStyleBackColor = true;
+            createNewUnitButton.Click += createNewUnitButton_Click;
             // 
             // closeButton
             // 
@@ -85,6 +86,7 @@
             closeButton.Tag = "Close";
             closeButton.Text = "Close";
             closeButton.UseVisualStyleBackColor = true;
+            closeButton.Click += closeButton_Click;
             // 
             // unitsComboBox
             // 

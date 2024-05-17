@@ -12,33 +12,27 @@ using ToLearn.Utils;
 
 namespace ToLearn.Forms.Flashcards;
 
-public partial class ShowUnitsForm : CustomForm
+public partial class CreateUnitForm : CustomForm
 {
     private readonly FlashcardsManager _flashcardsManager;
     private readonly Deck _deck;
 
-    public ShowUnitsForm(Deck deck)
+    public CreateUnitForm(Deck deck)
     {
         InitializeComponent();
         _flashcardsManager = new FlashcardsManager(this);
         _deck = deck;
     }
 
-    private async void ShowUnitsForm_Load(object sender, EventArgs e)
+    private async void createButton_Click(object sender, EventArgs e)
     {
-        await _flashcardsManager.ShowUnits(_deck);
+        string name = nameTextBox.Text;
+        string description = descriptionTextBox.Text;
+        await _flashcardsManager.CreateUnit(_deck.id, name, description);
     }
 
-    private void closeButton_Click(object sender, EventArgs e)
+    private void cancelButton_Click(object sender, EventArgs e)
     {
-        CloseForm();
-    }
-
-    private void createNewUnitButton_Click(object sender, EventArgs e)
-    {
-        var createUnitForm = new CreateUnitForm(_deck);
-        Visible = false;
-        createUnitForm.ShowDialog();
-        Visible = true;
+        CloseForm()
     }
 }
