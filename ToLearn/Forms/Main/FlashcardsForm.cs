@@ -50,15 +50,35 @@ public partial class FlashcardsForm : CustomForm
 
     private void editButton_Click(object sender, EventArgs e)
     {
-        int selectedIndex = decksComboBox.SelectedIndex;
-        if (selectedIndex == -1)
+        var selectedDeck = GetSelectedDeck();
+        if (selectedDeck == null)
         {
             return;
         }
-        Deck selectedDeck = FlashcardsManager.GetDecks()[selectedIndex];
         var editDeckForm = new EditDeckForm(selectedDeck);
         Visible = false;
         editDeckForm.ShowDialog();
         Visible = true;
+    }
+
+    private async void deleteButton_Click(object sender, EventArgs e)
+    {
+        var selectedDeck = GetSelectedDeck();
+        if (selectedDeck == null)
+        {
+            return;
+        }
+        await _flashcardsManager.DeleteDeck(selectedDeck);
+    }
+
+    private Deck GetSelectedDeck()
+    {
+        int selectedIndex = decksComboBox.SelectedIndex;
+        if (selectedIndex == -1)
+        {
+            return null;
+        }
+        Deck selectedDeck = FlashcardsManager.GetDecks()[selectedIndex];
+        return selectedDeck;
     }
 }
