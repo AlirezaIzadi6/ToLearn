@@ -87,6 +87,7 @@
             showUnitsButton.TabIndex = 4;
             showUnitsButton.Text = "Show units";
             showUnitsButton.UseVisualStyleBackColor = true;
+            showUnitsButton.Click += showUnitsButton_Click;
             // 
             // editButton
             // 

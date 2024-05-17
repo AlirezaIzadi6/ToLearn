@@ -81,4 +81,12 @@ public partial class FlashcardsForm : CustomForm
         Deck selectedDeck = FlashcardsManager.GetDecks()[selectedIndex];
         return selectedDeck;
     }
+
+    private void showUnitsButton_Click(object sender, EventArgs e)
+    {
+        var showUnitsForm = new ShowUnitsForm(GetSelectedDeck());
+        Visible = false;
+        showUnitsForm.ShowDialog();
+        Visible = true;
+    }
 }
