@@ -18,6 +18,16 @@ public class CustomForm : Form, ICustomForm
         MessageBox.Show(message, caption);
     }
 
+    public bool ShowQuestion(string question, string title = "")
+    {
+        DialogResult result = MessageBox.Show(question, title, MessageBoxButtons.YesNo);
+        if (result == DialogResult.Yes)
+        {
+            return true;
+        }
+        return false;
+    }
+
     public void CloseForm()
     {
         this.Close();
@@ -103,6 +113,7 @@ public class CustomForm : Form, ICustomForm
 public interface ICustomForm
 {
     public void ShowMessage(string message, string caption = "");
+    public bool ShowQuestion(string question, string title);
     public void ShowError(Response response);
     public Control? FindByTag(string tag);
     public void SetComboBox(string tag, List<string> options);
