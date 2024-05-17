@@ -56,4 +56,15 @@ public class RequestMaker
         };
         return response;
     }
+
+    public async Task<Response> Delete(string path)
+    {
+        var result = await _client.DeleteAsync(path);
+        var response = new Response()
+        {
+            StatusCode = (int)result.StatusCode,
+            Body = result.Content.ReadAsStringAsync().Result
+        };
+        return response;
+    }
 }
