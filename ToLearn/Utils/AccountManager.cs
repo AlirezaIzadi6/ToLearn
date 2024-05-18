@@ -115,14 +115,14 @@ public class AccountManager
 
         if (_userIsLoggedIn != null)
         {
-            _form.ChangeVisibility(controlTags, (bool)_userIsLoggedIn);
+            _form.ChangeEnabled(controlTags, (bool)_userIsLoggedIn);
             return (bool)_userIsLoggedIn;
         }
         User? user = GetCurrentUser();
         if (user == null)
         {
             _userIsLoggedIn = false;
-            _form.ChangeVisibility(controlTags, false);
+            _form.ChangeEnabled(controlTags, false);
             return false;
         }
 
@@ -133,19 +133,19 @@ public class AccountManager
             if (response.StatusCode != 200)
             {
                 _userIsLoggedIn = false;
-                _form.ChangeVisibility(controlTags, false);
+                _form.ChangeEnabled(controlTags, false);
                 _form.ShowError(response);
                 return false;
             }
             UserInfo? userInfo = JsonSerializer.Deserialize<UserInfo>(response.Body);
             _userIsLoggedIn = userInfo.email == null ? false : true;
-            _form.ChangeVisibility(controlTags, (bool)_userIsLoggedIn);
+            _form.ChangeEnabled(controlTags, (bool)_userIsLoggedIn);
             return (bool)_userIsLoggedIn;
         }
         catch (Exception ex)
         {
             _form.ShowMessage(ex.Message, "Error checking login");
-            _form.ChangeVisibility(controlTags, false);
+            _form.ChangeEnabled(controlTags, false);
             return false;
         }
     }

@@ -36,6 +36,7 @@
             // 
             // flashcardsButton
             // 
+            flashcardsButton.Enabled = false;
             flashcardsButton.Location = new Point(0, 0);
             flashcardsButton.Name = "flashcardsButton";
             flashcardsButton.Size = new Size(75, 23);
@@ -43,11 +44,11 @@
             flashcardsButton.Tag = "Flashcards";
             flashcardsButton.Text = "Flashcards";
             flashcardsButton.UseVisualStyleBackColor = true;
-            flashcardsButton.Visible = false;
             flashcardsButton.Click += flashcardsButton_Click;
             // 
             // conjugationTrainingButton
             // 
+            conjugationTrainingButton.Enabled = false;
             conjugationTrainingButton.Location = new Point(8, 8);
             conjugationTrainingButton.Name = "conjugationTrainingButton";
             conjugationTrainingButton.Size = new Size(75, 23);
@@ -55,7 +56,6 @@
             conjugationTrainingButton.Tag = "ConjugationTraining";
             conjugationTrainingButton.Text = "Conjugation training";
             conjugationTrainingButton.UseVisualStyleBackColor = true;
-            conjugationTrainingButton.Visible = false;
             conjugationTrainingButton.Click += conjugationTrainingButton_Click;
             // 
             // accountButton

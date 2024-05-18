@@ -51,12 +51,12 @@ public class CustomForm : Form, ICustomForm
         }
     }
 
-    public void ChangeVisibility(List<string> tags, bool visible)
+    public void ChangeEnabled(List<string> tags, bool enabled)
     {
         foreach (string tag in tags)
         {
             var control = FindByTag(tag);
-            control.Visible = visible;
+            control.Enabled = enabled;
         }
     }
 
@@ -117,6 +117,6 @@ public interface ICustomForm
     public void ShowError(Response response);
     public Control? FindByTag(string tag);
     public void SetComboBox(string tag, List<string> options);
-    public void ChangeVisibility(List<string>  tag, bool visible);
+    public void ChangeEnabled(List<string>  tag, bool enabled);
     public void Close();
 }

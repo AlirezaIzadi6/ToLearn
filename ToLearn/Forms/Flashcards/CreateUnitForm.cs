@@ -33,6 +33,6 @@ public partial class CreateUnitForm : CustomForm
 
     private void cancelButton_Click(object sender, EventArgs e)
     {
-        CloseForm()
+        CloseForm();
     }
 }
