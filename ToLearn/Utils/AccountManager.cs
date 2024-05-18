@@ -106,23 +106,16 @@ public class AccountManager
         catch { }
     }
 
-    public async Task<bool> UserIsLoggedIn(List<string> controlTags = null)
+    public async Task<bool?> UserIsLoggedIn()
     {
-        if (controlTags == null)
-        {
-            controlTags = new List<string>();
-        }
-
         if (_userIsLoggedIn != null)
         {
-            _form.ChangeEnabled(controlTags, (bool)_userIsLoggedIn);
-            return (bool)_userIsLoggedIn;
+            return _userIsLoggedIn;
         }
         User? user = GetCurrentUser();
         if (user == null)
         {
             _userIsLoggedIn = false;
-            _form.ChangeEnabled(controlTags, false);
             return false;
         }
 
@@ -132,20 +125,17 @@ public class AccountManager
             var response = await requestMaker.Get("manage/info");
             if (response.StatusCode != 200)
             {
-                _userIsLoggedIn = false;
-                _form.ChangeEnabled(controlTags, false);
                 _form.ShowError(response);
+                _userIsLoggedIn = false;
                 return false;
             }
             UserInfo? userInfo = JsonSerializer.Deserialize<UserInfo>(response.Body);
             _userIsLoggedIn = userInfo.email == null ? false : true;
-            _form.ChangeEnabled(controlTags, (bool)_userIsLoggedIn);
-            return (bool)_userIsLoggedIn;
+            return _userIsLoggedIn;
         }
         catch (Exception ex)
         {
             _form.ShowMessage(ex.Message, "Error checking login");
-            _form.ChangeEnabled(controlTags, false);
             return false;
         }
     }

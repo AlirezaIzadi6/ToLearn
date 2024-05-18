@@ -36,7 +36,7 @@ public partial class MainForm : CustomForm
 
     private async void accountButton_Click(object sender, EventArgs e)
     {
-        if (await _accountManager.UserIsLoggedIn())
+        if (await _accountManager.UserIsLoggedIn() == true)
         {
             var accountForm = new AccountForm_LoggedIn();
             this.Visible = false;
@@ -49,12 +49,26 @@ public partial class MainForm : CustomForm
             accountForm.ShowDialog();
         }
         this.Visible = true;
-        await _accountManager.UserIsLoggedIn(new() { "Flashcards", "ConjugationTraining" });
+        await UpdateControls();
     }
 
     private async void MainForm_Load(object sender, EventArgs e)
     {
         AccountManager.LoadUser();
-        await _accountManager.UserIsLoggedIn(new() { "Flashcards", "ConjugationTraining" });
+        await UpdateControls();
+    }
+
+    private async Task UpdateControls()
+    {
+        List<string> controlTags = new() { "Flashcards", "ConjugationTraining" };
+        var isLoggedIn = await _accountManager.UserIsLoggedIn();
+        if (isLoggedIn == true)
+        {
+            ChangeEnabled(controlTags, true);
+        }
+        else
+        {
+            ChangeEnabled(controlTags, false);
+        }
     }
 }
