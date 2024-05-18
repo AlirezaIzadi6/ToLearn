@@ -67,6 +67,7 @@
             learnButton.Name = "learnButton";
             learnButton.Size = new Size(75, 23);
             learnButton.TabIndex = 2;
+            learnButton.Tag = "Learn";
             learnButton.Text = "Learn";
             learnButton.UseVisualStyleBackColor = true;
             // 
@@ -76,6 +77,7 @@
             reviewButton.Name = "reviewButton";
             reviewButton.Size = new Size(75, 23);
             reviewButton.TabIndex = 3;
+            reviewButton.Tag = "Review";
             reviewButton.Text = "Review";
             reviewButton.UseVisualStyleBackColor = true;
             // 
@@ -85,6 +87,7 @@
             showUnitsButton.Name = "showUnitsButton";
             showUnitsButton.Size = new Size(75, 23);
             showUnitsButton.TabIndex = 4;
+            showUnitsButton.Tag = "ShowUnits";
             showUnitsButton.Text = "Show units";
             showUnitsButton.UseVisualStyleBackColor = true;
             showUnitsButton.Click += showUnitsButton_Click;
@@ -95,6 +98,7 @@
             editButton.Name = "editButton";
             editButton.Size = new Size(75, 23);
             editButton.TabIndex = 5;
+            editButton.Tag = "Edit";
             editButton.Text = "Edit";
             editButton.UseVisualStyleBackColor = true;
             editButton.Click += editButton_Click;
@@ -105,6 +109,7 @@
             deleteButton.Name = "deleteButton";
             deleteButton.Size = new Size(75, 23);
             deleteButton.TabIndex = 6;
+            deleteButton.Tag = "Delete";
             deleteButton.Text = "Delete";
             deleteButton.UseVisualStyleBackColor = true;
             deleteButton.Click += deleteButton_Click;

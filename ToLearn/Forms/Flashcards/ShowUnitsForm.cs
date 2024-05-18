@@ -26,6 +26,7 @@ public partial class ShowUnitsForm : CustomForm
 
     private async void ShowUnitsForm_Load(object sender, EventArgs e)
     {
+        UpdateControls();
         await _flashcardsManager.ShowUnits(_deck);
     }
 
@@ -40,5 +41,37 @@ public partial class ShowUnitsForm : CustomForm
         Visible = false;
         createUnitForm.ShowDialog();
         Visible = true;
+    }
+
+    private Unit GetSelectedUnit()
+    {
+        int selectedIndex = unitsComboBox.SelectedIndex;
+        if (selectedIndex == -1)
+        {
+            return null;
+        }
+        var units = FlashcardsManager.GetUnits();
+        return units[selectedIndex];
+    }
+
+    private void UpdateControls()
+    {
+        var controlTags = new List<string>()
+        {
+            "ShowCards", "Edit", "Delete"
+        };
+        if (GetSelectedUnit() != null)
+        {
+            ChangeEnabled(controlTags, true);
+        }
+        else
+        {
+            ChangeEnabled(controlTags, false);
+        }
+    }
+
+    private void unitsComboBox_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        UpdateControls();
     }
 }

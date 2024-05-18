@@ -38,6 +38,7 @@
             // 
             // showCardsButton
             // 
+            showCardsButton.Enabled = false;
             showCardsButton.Location = new Point(8, 8);
             showCardsButton.Name = "showCardsButton";
             showCardsButton.Size = new Size(75, 23);
@@ -48,6 +49,7 @@
             // 
             // editButton
             // 
+            editButton.Enabled = false;
             editButton.Location = new Point(16, 16);
             editButton.Name = "editButton";
             editButton.Size = new Size(75, 23);
@@ -58,6 +60,7 @@
             // 
             // deleteButton
             // 
+            deleteButton.Enabled = false;
             deleteButton.Location = new Point(24, 24);
             deleteButton.Name = "deleteButton";
             deleteButton.Size = new Size(75, 23);
@@ -98,6 +101,7 @@
             unitsComboBox.Size = new Size(121, 23);
             unitsComboBox.TabIndex = 0;
             unitsComboBox.Tag = "Units";
+            unitsComboBox.SelectedIndexChanged += unitsComboBox_SelectedIndexChanged;
             // 
             // ShowUnitsForm
             // 

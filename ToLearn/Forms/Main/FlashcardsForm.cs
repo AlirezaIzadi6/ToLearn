@@ -25,6 +25,7 @@ public partial class FlashcardsForm : CustomForm
 
     private void FlashcardsForm_Load(object sender, EventArgs e)
     {
+        UpdateControls();
         _flashcardsManager.FillDecks();
     }
 
@@ -33,6 +34,7 @@ public partial class FlashcardsForm : CustomForm
         int index = decksComboBox.SelectedIndex;
         List<Deck> decks = FlashcardsManager.GetDecks();
         descriptionTextBox.Text = decks[index].description;
+        UpdateControls();
     }
 
     private void createNewButton_Click(object sender, EventArgs e)
@@ -88,5 +90,21 @@ public partial class FlashcardsForm : CustomForm
         Visible = false;
         showUnitsForm.ShowDialog();
         Visible = true;
+    }
+
+    private void UpdateControls()
+    {
+        var controlTags = new List<string>()
+        {
+            "Learn", "Review", "ShowUnits", "Edit", "Delete"
+        };
+        if (GetSelectedDeck()  == null)
+        {
+            ChangeEnabled(controlTags, false);
+        }
+        else
+        {
+            ChangeEnabled(controlTags, true);
+        }
     }
 }
