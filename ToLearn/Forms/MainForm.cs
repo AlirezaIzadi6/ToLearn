@@ -1,7 +1,7 @@
 using ToLearn.Forms;
 using ToLearn.Utils;
 
-namespace ToLearn;
+namespace ToLearn.Forms;
 
 public partial class MainForm : CustomForm
 {

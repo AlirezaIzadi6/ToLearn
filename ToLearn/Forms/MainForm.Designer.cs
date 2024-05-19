@@ -1,4 +1,4 @@
-﻿namespace ToLearn
+﻿namespace ToLearn.Forms
 {
     partial class MainForm
     {
