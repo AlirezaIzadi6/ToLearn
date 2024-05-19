@@ -64,6 +64,7 @@
             accountButton.Name = "accountButton";
             accountButton.Size = new Size(75, 23);
             accountButton.TabIndex = 2;
+            accountButton.Tag = "Account";
             accountButton.Text = "Account";
             accountButton.UseVisualStyleBackColor = true;
             accountButton.Click += accountButton_Click;
@@ -74,6 +75,7 @@
             exitButton.Name = "exitButton";
             exitButton.Size = new Size(75, 23);
             exitButton.TabIndex = 3;
+            exitButton.Tag = "Exit";
             exitButton.Text = "Exit";
             exitButton.UseVisualStyleBackColor = true;
             exitButton.Click += exitButton_Click;

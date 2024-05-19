@@ -1,20 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿namespace ToLearn.Forms;
 
-namespace ToLearn.Forms
+public partial class ConjugationTrainingForm : CustomForm
 {
-    public partial class ConjugationTrainingForm : Form
+    public ConjugationTrainingForm()
     {
-        public ConjugationTrainingForm()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

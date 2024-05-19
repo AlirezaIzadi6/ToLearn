@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using ToLearn.Models.Flashcards;
+﻿using ToLearn.Models.Flashcards;
 using ToLearn.Utils;
 
 namespace ToLearn.Forms.Flashcards;
@@ -30,9 +21,9 @@ public partial class ShowUnitsForm : CustomForm
         await _flashcardsManager.ShowUnits(_deck);
     }
 
-    private void closeButton_Click(object sender, EventArgs e)
+    private void unitsComboBox_SelectedIndexChanged(object sender, EventArgs e)
     {
-        CloseForm();
+        UpdateControls();
     }
 
     private void createNewUnitButton_Click(object sender, EventArgs e)
@@ -41,6 +32,11 @@ public partial class ShowUnitsForm : CustomForm
         Visible = false;
         createUnitForm.ShowDialog();
         Visible = true;
+    }
+
+    private void closeButton_Click(object sender, EventArgs e)
+    {
+        CloseForm();
     }
 
     private Unit GetSelectedUnit()
@@ -68,10 +64,5 @@ public partial class ShowUnitsForm : CustomForm
         {
             ChangeEnabled(controlTags, false);
         }
-    }
-
-    private void unitsComboBox_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        UpdateControls();
     }
 }

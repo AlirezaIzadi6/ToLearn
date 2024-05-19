@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using ToLearn.Forms.Flashcards;
+﻿using ToLearn.Forms.Flashcards;
 using ToLearn.Models.Flashcards;
 using ToLearn.Utils;
 
@@ -37,6 +28,29 @@ public partial class FlashcardsForm : CustomForm
         UpdateControls();
     }
 
+    private void showUnitsButton_Click(object sender, EventArgs e)
+    {
+        var showUnitsForm = new ShowUnitsForm(GetSelectedDeck());
+        Visible = false;
+        showUnitsForm.ShowDialog();
+        Visible = true;
+    }
+
+    private void editButton_Click(object sender, EventArgs e)
+    {
+        var selectedDeck = GetSelectedDeck();
+        var editDeckForm = new EditDeckForm(selectedDeck);
+        Visible = false;
+        editDeckForm.ShowDialog();
+        Visible = true;
+    }
+
+    private async void deleteButton_Click(object sender, EventArgs e)
+    {
+        var selectedDeck = GetSelectedDeck();
+        await _flashcardsManager.DeleteDeck(selectedDeck);
+    }
+
     private void createNewButton_Click(object sender, EventArgs e)
     {
         var createDeckForm = new CreateDeckForm();
@@ -50,29 +64,6 @@ public partial class FlashcardsForm : CustomForm
         CloseForm();
     }
 
-    private void editButton_Click(object sender, EventArgs e)
-    {
-        var selectedDeck = GetSelectedDeck();
-        if (selectedDeck == null)
-        {
-            return;
-        }
-        var editDeckForm = new EditDeckForm(selectedDeck);
-        Visible = false;
-        editDeckForm.ShowDialog();
-        Visible = true;
-    }
-
-    private async void deleteButton_Click(object sender, EventArgs e)
-    {
-        var selectedDeck = GetSelectedDeck();
-        if (selectedDeck == null)
-        {
-            return;
-        }
-        await _flashcardsManager.DeleteDeck(selectedDeck);
-    }
-
     private Deck GetSelectedDeck()
     {
         int selectedIndex = decksComboBox.SelectedIndex;
@@ -82,14 +73,6 @@ public partial class FlashcardsForm : CustomForm
         }
         Deck selectedDeck = FlashcardsManager.GetDecks()[selectedIndex];
         return selectedDeck;
-    }
-
-    private void showUnitsButton_Click(object sender, EventArgs e)
-    {
-        var showUnitsForm = new ShowUnitsForm(GetSelectedDeck());
-        Visible = false;
-        showUnitsForm.ShowDialog();
-        Visible = true;
     }
 
     private void UpdateControls()

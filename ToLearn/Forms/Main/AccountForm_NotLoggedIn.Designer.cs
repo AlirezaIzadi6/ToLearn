@@ -39,6 +39,7 @@
             loginButton.Name = "loginButton";
             loginButton.Size = new Size(75, 23);
             loginButton.TabIndex = 0;
+            loginButton.Tag = "Login";
             loginButton.Text = "Login";
             loginButton.UseVisualStyleBackColor = true;
             loginButton.Click += loginButton_Click;
@@ -49,6 +50,7 @@
             registerButton.Name = "registerButton";
             registerButton.Size = new Size(75, 23);
             registerButton.TabIndex = 1;
+            registerButton.Tag = "Register";
             registerButton.Text = "Register";
             registerButton.UseVisualStyleBackColor = true;
             registerButton.Click += registerButton_Click;
@@ -59,11 +61,12 @@
             closeButton.Name = "closeButton";
             closeButton.Size = new Size(75, 23);
             closeButton.TabIndex = 2;
+            closeButton.Tag = "Close";
             closeButton.Text = "Close";
             closeButton.UseVisualStyleBackColor = true;
             closeButton.Click += closeButton_Click;
             // 
-            // AccountForm
+            // AccountForm_NotLoggedIn
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -71,7 +74,7 @@
             Controls.Add(closeButton);
             Controls.Add(registerButton);
             Controls.Add(loginButton);
-            Name = "AccountForm";
+            Name = "AccountForm_NotLoggedIn";
             Text = "Account";
             ResumeLayout(false);
         }

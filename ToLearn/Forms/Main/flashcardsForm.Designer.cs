@@ -60,6 +60,7 @@
             descriptionTextBox.ReadOnly = true;
             descriptionTextBox.Size = new Size(100, 23);
             descriptionTextBox.TabIndex = 1;
+            descriptionTextBox.Tag = "Description";
             // 
             // learnButton
             // 
@@ -120,6 +121,7 @@
             createNewButton.Name = "createNewButton";
             createNewButton.Size = new Size(75, 23);
             createNewButton.TabIndex = 7;
+            createNewButton.Tag = "CreateNew";
             createNewButton.Text = "Create a new deck";
             createNewButton.UseVisualStyleBackColor = true;
             createNewButton.Click += createNewButton_Click;
@@ -130,6 +132,7 @@
             closeButton.Name = "closeButton";
             closeButton.Size = new Size(75, 23);
             closeButton.TabIndex = 8;
+            closeButton.Tag = "Close";
             closeButton.Text = "Close";
             closeButton.UseVisualStyleBackColor = true;
             closeButton.Click += closeButton_Click;

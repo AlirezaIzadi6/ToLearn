@@ -1,26 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using ToLearn.Forms.Account;
+﻿using ToLearn.Forms.Account;
 
 namespace ToLearn.Forms;
 
-public partial class AccountForm_NotLoggedIn : Form
+public partial class AccountForm_NotLoggedIn : CustomForm
 {
     public AccountForm_NotLoggedIn()
     {
         InitializeComponent();
-    }
-
-    private void closeButton_Click(object sender, EventArgs e)
-    {
-        this.Close();
     }
 
     private void loginButton_Click(object sender, EventArgs e)
@@ -37,5 +23,10 @@ public partial class AccountForm_NotLoggedIn : Form
         this.Visible = false;
         registerForm.ShowDialog();
         this.Visible = true;
+    }
+
+    private void closeButton_Click(object sender, EventArgs e)
+    {
+        CloseForm();
     }
 }

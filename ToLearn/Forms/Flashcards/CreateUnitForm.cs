@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using ToLearn.Models.Flashcards;
+﻿using ToLearn.Models.Flashcards;
 using ToLearn.Utils;
 
 namespace ToLearn.Forms.Flashcards;

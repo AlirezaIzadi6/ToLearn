@@ -40,6 +40,7 @@
             closeButton.Name = "closeButton";
             closeButton.Size = new Size(75, 23);
             closeButton.TabIndex = 2;
+            closeButton.Tag = "Exit";
             closeButton.Text = "Close";
             closeButton.UseVisualStyleBackColor = true;
             closeButton.Click += closeButton_Click;
@@ -52,6 +53,7 @@
             statusTextBox.ReadOnly = true;
             statusTextBox.Size = new Size(100, 23);
             statusTextBox.TabIndex = 0;
+            statusTextBox.Tag = "Status";
             // 
             // logoutButton
             // 
@@ -59,6 +61,7 @@
             logoutButton.Name = "logoutButton";
             logoutButton.Size = new Size(75, 23);
             logoutButton.TabIndex = 1;
+            logoutButton.Tag = "Logout";
             logoutButton.Text = "Logout";
             logoutButton.UseVisualStyleBackColor = true;
             logoutButton.Click += logoutButton_Click;

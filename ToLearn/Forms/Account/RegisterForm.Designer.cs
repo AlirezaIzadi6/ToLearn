@@ -41,6 +41,7 @@
             emailTextBox.Name = "emailTextBox";
             emailTextBox.Size = new Size(100, 23);
             emailTextBox.TabIndex = 0;
+            emailTextBox.Tag = "Email";
             // 
             // passwordTextBox
             // 
@@ -49,6 +50,7 @@
             passwordTextBox.Name = "passwordTextBox";
             passwordTextBox.Size = new Size(100, 23);
             passwordTextBox.TabIndex = 1;
+            passwordTextBox.Tag = "Password";
             passwordTextBox.UseSystemPasswordChar = true;
             // 
             // registerButton
@@ -57,6 +59,7 @@
             registerButton.Name = "registerButton";
             registerButton.Size = new Size(75, 23);
             registerButton.TabIndex = 2;
+            registerButton.Tag = "Register";
             registerButton.Text = "Register";
             registerButton.UseVisualStyleBackColor = true;
             registerButton.Click += registerButton_Click;
@@ -67,6 +70,7 @@
             cancelButton.Name = "cancelButton";
             cancelButton.Size = new Size(75, 23);
             cancelButton.TabIndex = 3;
+            cancelButton.Tag = "Cancel";
             cancelButton.Text = "Cancel";
             cancelButton.UseVisualStyleBackColor = true;
             cancelButton.Click += cancelButton_Click;

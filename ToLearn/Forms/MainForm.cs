@@ -1,4 +1,3 @@
-using ToLearn.Forms;
 using ToLearn.Utils;
 
 namespace ToLearn.Forms;
@@ -13,17 +12,18 @@ public partial class MainForm : CustomForm
         _accountManager = new AccountManager(this);
     }
 
+    private async void MainForm_Load(object sender, EventArgs e)
+    {
+        AccountManager.LoadUser();
+        await UpdateControls();
+    }
+
     private void flashcardsButton_Click(object sender, EventArgs e)
     {
         var flashcardsForm = new FlashcardsForm();
         this.Visible = false;
         flashcardsForm.ShowDialog();
         this.Visible = true;
-    }
-
-    private void exitButton_Click(object sender, EventArgs e)
-    {
-        this.Close();
     }
 
     private void conjugationTrainingButton_Click(object sender, EventArgs e)
@@ -52,10 +52,9 @@ public partial class MainForm : CustomForm
         await UpdateControls();
     }
 
-    private async void MainForm_Load(object sender, EventArgs e)
+    private void exitButton_Click(object sender, EventArgs e)
     {
-        AccountManager.LoadUser();
-        await UpdateControls();
+        CloseForm();
     }
 
     private async Task UpdateControls()
