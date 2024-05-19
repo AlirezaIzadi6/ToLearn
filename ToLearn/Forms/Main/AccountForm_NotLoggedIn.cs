@@ -1,4 +1,5 @@
 ﻿using ToLearn.Forms.Account;
+using ToLearn.Utils;
 
 namespace ToLearn.Forms;
 
@@ -9,12 +10,21 @@ public partial class AccountForm_NotLoggedIn : CustomForm
         InitializeComponent();
     }
 
-    private void loginButton_Click(object sender, EventArgs e)
+    private async void loginButton_Click(object sender, EventArgs e)
     {
         var loginForm = new LoginForm();
         this.Visible = false;
         loginForm.ShowDialog();
-        this.Visible = true;
+        if (await new AccountManager(this).UserIsLoggedIn() != true)
+        {
+            Visible = true;
+        }
+        else
+        {
+            var accountForm = new AccountForm_LoggedIn();
+            CloseForm();
+            accountForm.ShowDialog();
+        }
     }
 
     private void registerButton_Click(object sender, EventArgs e)
