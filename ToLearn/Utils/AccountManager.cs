@@ -40,7 +40,7 @@ public class AccountManager
             Config.SaveConfig<User>(newUser);
             _userIsLoggedIn = true;
             _form.ShowMessage($"Login successful. Welcome {_user.Email}", "Success");
-            _form.Close();
+            _form.CloseForm();
             return true;
         }
         catch (Exception ex)

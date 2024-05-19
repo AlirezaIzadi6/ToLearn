@@ -67,7 +67,7 @@ public class FlashcardsManager
             }
             Deck createdDeck = JsonSerializer.Deserialize<Deck>(response.Body);
             _form.ShowMessage("Deck created successfully.", "Success");
-            _form.Close();
+            _form.CloseForm();
         }
         catch (Exception ex)
         {
@@ -93,7 +93,7 @@ public class FlashcardsManager
                 return;
             }
             _form.ShowMessage("Your changes are saved successfully.", "Success");
-            _form.Close();
+            _form.CloseForm();
             return;
         }
         catch(Exception ex)
@@ -170,7 +170,7 @@ public class FlashcardsManager
                 return false;
             }
             _form.ShowMessage("Unit created successfully.", "Success");
-            _form.Close();
+            _form.CloseForm();
             return true;
         }
         catch (Exception ex)
