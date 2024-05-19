@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using ToLearn.Utils;
 using ToLearn.Models.RequestMaker;
 using ToLearn.Models.Errors;
 
@@ -13,6 +7,8 @@ namespace ToLearn.Forms;
 
 public class CustomForm : Form, ICustomForm
 {
+    // Methods that don't manipulate any control except the form.
+
     public void ShowMessage(string message, string caption = "")
     {
         MessageBox.Show(message, caption);
@@ -28,54 +24,9 @@ public class CustomForm : Form, ICustomForm
         return false;
     }
 
-    public void CloseForm()
-    {
-        this.Close();
-    }
-
-    public void SetComboBox(string tag, List<string> options)
-    {
-        ComboBox? comboBox = (ComboBox?)FindByTag(tag);
-        if (comboBox == null)
-        {
-            return;
-        }
-        comboBox.Items.Clear();
-        foreach (string option in options)
-        {
-            if (option == null)
-            {
-                continue;
-            }
-            comboBox.Items.Add(option);
-        }
-    }
-
-    public void ChangeEnabled(List<string> tags, bool enabled)
-    {
-        foreach (string tag in tags)
-        {
-            var control = FindByTag(tag);
-            control.Enabled = enabled;
-        }
-    }
-
-    public Control? FindByTag(string tag)
-    {
-        var controls = this.Controls;
-        foreach (Control control in controls)
-        {
-            if (control.Tag != null && control.Tag.ToString() == tag)
-            {
-                return control;
-            }
-        }
-        return null;
-    }
-
     public void ShowError(Response response)
     {
-        switch(response.StatusCode)
+        switch (response.StatusCode)
         {
             case 400:
                 var error = JsonSerializer.Deserialize<CustomError>(response.Body);
@@ -95,7 +46,55 @@ public class CustomForm : Form, ICustomForm
             case 404:
                 ShowMessage("This resource does not exist.", "Not  found");
                 break;
+            default:
+                ShowMessage("An error occurred.", "Error");
+                break;
         }
+    }
+
+    public void CloseForm()
+    {
+        this.Close();
+    }
+
+    // Methods that manipulate controls.
+
+    public void SetComboBox(string tag, List<string> options)
+    {
+        ComboBox? comboBox = (ComboBox?)FindByTag(tag);
+        if (comboBox == null)
+        {
+            return;
+        }
+        comboBox.Items.Clear();
+        foreach (string option in options)
+        {
+            comboBox.Items.Add(option);
+        }
+    }
+
+    public void ChangeEnabled(List<string> tags, bool enabled)
+    {
+        foreach (string tag in tags)
+        {
+            var control = FindByTag(tag);
+            control.Enabled = enabled;
+        }
+    }
+
+    // Private methods.
+
+    private Control? FindByTag(string tag)
+    {
+        var controls = this.Controls;
+        foreach (Control control in controls)
+        {
+            if (control.Tag != null && control.Tag.ToString() == tag)
+            {
+                return control;
+            }
+        }
+        return null;
     }
 
     private string GetErrors(string body)
@@ -115,8 +114,7 @@ public interface ICustomForm
     public void ShowMessage(string message, string caption = "");
     public bool ShowQuestion(string question, string title);
     public void ShowError(Response response);
-    public Control? FindByTag(string tag);
+    public void CloseForm();
     public void SetComboBox(string tag, List<string> options);
-    public void ChangeEnabled(List<string>  tag, bool enabled);
-    public void Close();
+    public void ChangeEnabled(List<string>  tags, bool enabled);
 }
