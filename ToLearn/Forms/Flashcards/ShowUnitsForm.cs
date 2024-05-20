@@ -119,4 +119,12 @@ public partial class ShowUnitsForm : CustomForm
                 break;
         }
     }
+
+    private void showCardsButton_Click(object sender, EventArgs e)
+    {
+        var showCardsForm = new ShowCardsForm(GetSelectedUnit());
+        Visible = false;
+        showCardsForm.ShowDialog();
+        Visible = true;
+    }
 }

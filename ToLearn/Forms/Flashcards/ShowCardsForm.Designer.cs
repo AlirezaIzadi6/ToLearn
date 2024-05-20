@@ -1,6 +1,6 @@
 ﻿namespace ToLearn.Forms.Flashcards
 {
-    partial class ShowUnitsForm
+    partial class ShowCardsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,33 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            showCardsButton = new Button();
+            cardsComboBox = new ComboBox();
             editButton = new Button();
             deleteButton = new Button();
-            createNewUnitButton = new Button();
+            createNewButton = new Button();
             closeButton = new Button();
-            unitsComboBox = new ComboBox();
             SuspendLayout();
             // 
-            // showCardsButton
+            // cardsComboBox
             // 
-            showCardsButton.Enabled = false;
-            showCardsButton.Location = new Point(8, 8);
-            showCardsButton.Name = "showCardsButton";
-            showCardsButton.Size = new Size(75, 23);
-            showCardsButton.TabIndex = 1;
-            showCardsButton.Tag = "ShowCards";
-            showCardsButton.Text = "Show cards";
-            showCardsButton.UseVisualStyleBackColor = true;
-            showCardsButton.Click += showCardsButton_Click;
+            cardsComboBox.AccessibleName = "Cards";
+            cardsComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            cardsComboBox.FormattingEnabled = true;
+            cardsComboBox.Location = new Point(0, 0);
+            cardsComboBox.Name = "cardsComboBox";
+            cardsComboBox.Size = new Size(121, 23);
+            cardsComboBox.TabIndex = 0;
+            cardsComboBox.Tag = "Cards";
+            cardsComboBox.SelectedIndexChanged += cardsComboBox_SelectedIndexChanged;
             // 
             // editButton
             // 
             editButton.Enabled = false;
-            editButton.Location = new Point(16, 16);
+            editButton.Location = new Point(8, 8);
             editButton.Name = "editButton";
             editButton.Size = new Size(75, 23);
-            editButton.TabIndex = 2;
+            editButton.TabIndex = 1;
             editButton.Tag = "Edit";
             editButton.Text = "Edit";
             editButton.UseVisualStyleBackColor = true;
@@ -63,73 +62,59 @@
             // deleteButton
             // 
             deleteButton.Enabled = false;
-            deleteButton.Location = new Point(24, 24);
+            deleteButton.Location = new Point(16, 16);
             deleteButton.Name = "deleteButton";
             deleteButton.Size = new Size(75, 23);
-            deleteButton.TabIndex = 3;
+            deleteButton.TabIndex = 2;
             deleteButton.Tag = "Delete";
             deleteButton.Text = "Delete";
             deleteButton.UseVisualStyleBackColor = true;
             deleteButton.Click += deleteButton_Click;
             // 
-            // createNewUnitButton
+            // createNewButton
             // 
-            createNewUnitButton.Location = new Point(32, 32);
-            createNewUnitButton.Name = "createNewUnitButton";
-            createNewUnitButton.Size = new Size(75, 23);
-            createNewUnitButton.TabIndex = 4;
-            createNewUnitButton.Tag = "CreateNewUnit";
-            createNewUnitButton.Text = "Create a new unit";
-            createNewUnitButton.UseVisualStyleBackColor = true;
-            createNewUnitButton.Click += createNewUnitButton_Click;
+            createNewButton.Location = new Point(24, 24);
+            createNewButton.Name = "createNewButton";
+            createNewButton.Size = new Size(75, 23);
+            createNewButton.TabIndex = 3;
+            createNewButton.Tag = "CreateNew";
+            createNewButton.Text = "Create new card";
+            createNewButton.UseVisualStyleBackColor = true;
+            createNewButton.Click += createNewButton_Click;
             // 
             // closeButton
             // 
-            closeButton.Location = new Point(40, 40);
+            closeButton.Location = new Point(32, 32);
             closeButton.Name = "closeButton";
             closeButton.Size = new Size(75, 23);
-            closeButton.TabIndex = 5;
+            closeButton.TabIndex = 4;
             closeButton.Tag = "Close";
             closeButton.Text = "Close";
             closeButton.UseVisualStyleBackColor = true;
             closeButton.Click += closeButton_Click;
             // 
-            // unitsComboBox
-            // 
-            unitsComboBox.AccessibleName = "List of units";
-            unitsComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            unitsComboBox.FormattingEnabled = true;
-            unitsComboBox.Location = new Point(0, 0);
-            unitsComboBox.Name = "unitsComboBox";
-            unitsComboBox.Size = new Size(121, 23);
-            unitsComboBox.TabIndex = 0;
-            unitsComboBox.Tag = "Units";
-            unitsComboBox.SelectedIndexChanged += unitsComboBox_SelectedIndexChanged;
-            // 
-            // ShowUnitsForm
+            // ShowCardsForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(644, 450);
-            Controls.Add(unitsComboBox);
             Controls.Add(closeButton);
-            Controls.Add(createNewUnitButton);
+            Controls.Add(createNewButton);
             Controls.Add(deleteButton);
             Controls.Add(editButton);
-            Controls.Add(showCardsButton);
-            Name = "ShowUnitsForm";
-            Text = "Show Unit";
-            Load += ShowUnitsForm_Load;
+            Controls.Add(cardsComboBox);
+            Name = "ShowCardsForm";
+            Text = "Show cards";
+            Load += ShowCardsForm_Load;
             ResumeLayout(false);
         }
 
         #endregion
 
-        private Button showCardsButton;
+        private ComboBox cardsComboBox;
         private Button editButton;
         private Button deleteButton;
-        private Button createNewUnitButton;
+        private Button createNewButton;
         private Button closeButton;
-        private ComboBox unitsComboBox;
     }
 }
