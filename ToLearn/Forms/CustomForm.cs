@@ -47,7 +47,7 @@ public class CustomForm : Form, ICustomForm
                 ShowMessage("This resource does not exist.", "Not  found");
                 break;
             default:
-                ShowMessage("An error occurred.", "Error");
+                ShowMessage(response.Body, $"Error {response.StatusCode}");
                 break;
         }
     }
