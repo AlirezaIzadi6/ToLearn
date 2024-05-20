@@ -17,8 +17,7 @@ public partial class ShowUnitsForm : CustomForm
 
     private async void ShowUnitsForm_Load(object sender, EventArgs e)
     {
-        UpdateControls();
-        await _flashcardsManager.ShowUnits(_deck);
+        await Refresh();
     }
 
     private void unitsComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -26,19 +25,24 @@ public partial class ShowUnitsForm : CustomForm
         UpdateControls();
     }
 
-    private void editButton_Click(object sender, EventArgs e)
+    private async void editButton_Click(object sender, EventArgs e)
     {
-        var editUnitForm = new EditUnitForm(GetSelectedUnit());
+        Unit selectedUnit = GetSelectedUnit();
+        var editUnitForm = new EditUnitForm(selectedUnit);
         Visible = false;
         editUnitForm.ShowDialog();
+        await Refresh();
+        SetSelection(selectedUnit.id);
         Visible = true;
     }
 
-    private void createNewUnitButton_Click(object sender, EventArgs e)
+    private async void createNewUnitButton_Click(object sender, EventArgs e)
     {
         var createUnitForm = new CreateUnitForm(_deck);
         Visible = false;
         createUnitForm.ShowDialog();
+        await Refresh();
+        SetSelection(-2);
         Visible = true;
     }
 
@@ -71,6 +75,37 @@ public partial class ShowUnitsForm : CustomForm
         else
         {
             ChangeEnabled(controlTags, false);
+        }
+    }
+
+private async new Task Refresh()
+    {
+        await _flashcardsManager.ShowUnits(_deck);
+        UpdateControls();
+    }
+
+    private void SetSelection(int option)
+    {
+        switch (option)
+        {
+            case -1:
+                unitsComboBox.SelectedIndex = -1;
+                break;
+            case -2:
+                unitsComboBox.SelectedIndex = unitsComboBox.Items.Count - 1;
+                break;
+            default:
+                int counter = 0;
+                foreach (Unit unit in FlashcardsManager.GetUnits())
+                {
+                    if (unit.id == option)
+                    {
+                        break;
+                    }
+                    counter++;
+                }
+                unitsComboBox.SelectedIndex = counter;
+                break;
         }
     }
 }

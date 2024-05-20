@@ -14,10 +14,9 @@ public partial class FlashcardsForm : CustomForm
         _flashcardsManager = new FlashcardsManager(this);
     }
 
-    private void FlashcardsForm_Load(object sender, EventArgs e)
+    private async void FlashcardsForm_Load(object sender, EventArgs e)
     {
-        UpdateControls();
-        _flashcardsManager.FillDecks();
+        await Refresh();
     }
 
     private void decksComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -36,26 +35,35 @@ public partial class FlashcardsForm : CustomForm
         Visible = true;
     }
 
-    private void editButton_Click(object sender, EventArgs e)
+    private async void editButton_Click(object sender, EventArgs e)
     {
         var selectedDeck = GetSelectedDeck();
         var editDeckForm = new EditDeckForm(selectedDeck);
         Visible = false;
         editDeckForm.ShowDialog();
+        await Refresh();
+        SetSelection(selectedDeck.id);
         Visible = true;
     }
 
     private async void deleteButton_Click(object sender, EventArgs e)
     {
         var selectedDeck = GetSelectedDeck();
-        await _flashcardsManager.DeleteDeck(selectedDeck);
+        bool result = await _flashcardsManager.DeleteDeck(selectedDeck);
+        if (result == true)
+        {
+            await Refresh();
+            SetSelection(-1);
+        }
     }
 
-    private void createNewButton_Click(object sender, EventArgs e)
+    private async void createNewButton_Click(object sender, EventArgs e)
     {
         var createDeckForm = new CreateDeckForm();
         Visible = false;
         createDeckForm.ShowDialog();
+        await Refresh();
+        SetSelection(-2);
         Visible = true;
     }
 
@@ -88,6 +96,37 @@ public partial class FlashcardsForm : CustomForm
         else
         {
             ChangeEnabled(controlTags, true);
+        }
+    }
+
+    private async new Task Refresh()
+    {
+        await _flashcardsManager.FillDecks();
+        UpdateControls();
+    }
+
+    private void SetSelection(int option)
+    {
+        switch (option)
+        {
+            case -1:
+                decksComboBox.SelectedIndex = -1;
+                break;
+            case -2:
+                decksComboBox.SelectedIndex = decksComboBox.Items.Count - 1;
+                break;
+            default:
+                int counter = 0;
+                foreach (Deck deck in FlashcardsManager.GetDecks())
+                {
+                    if (deck.id == option)
+                    {
+                        break;
+                    }
+                    counter++;
+                }
+                decksComboBox.SelectedIndex = counter;
+                break;
         }
     }
 }
