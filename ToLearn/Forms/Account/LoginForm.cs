@@ -16,7 +16,11 @@ public partial class LoginForm : CustomForm
     {
         string email = emailTextBox.Text;
         string password = passwordTextBox.Text;
-        await _accountManager.Login(email, password);
+        bool result = await _accountManager.Login(email, password);
+        if (result == true)
+        {
+            CloseForm();
+        }
     }
 
     private void cancelButton_Click(object sender, EventArgs e)

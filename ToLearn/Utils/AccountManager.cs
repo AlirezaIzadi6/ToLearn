@@ -39,8 +39,6 @@ public class AccountManager
             SetCurrentUser(newUser);
             Config.SaveConfig<User>(newUser);
             _userIsLoggedIn = true;
-            _form.ShowMessage($"Login successful. Welcome {_user.Email}", "Success");
-            _form.CloseForm();
             return true;
         }
         catch (Exception ex)
@@ -125,7 +123,6 @@ public class AccountManager
             var response = await requestMaker.Get("manage/info");
             if (response.StatusCode != 200)
             {
-                _form.ShowError(response);
                 _userIsLoggedIn = false;
                 return false;
             }
@@ -135,7 +132,6 @@ public class AccountManager
         }
         catch (Exception ex)
         {
-            _form.ShowMessage(ex.Message, "Error checking login");
             return false;
         }
     }
