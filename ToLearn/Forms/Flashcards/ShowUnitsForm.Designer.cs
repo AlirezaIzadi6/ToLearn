@@ -69,6 +69,7 @@
             deleteButton.Tag = "Delete";
             deleteButton.Text = "Delete";
             deleteButton.UseVisualStyleBackColor = true;
+            deleteButton.Click += deleteButton_Click;
             // 
             // createNewUnitButton
             // 

@@ -217,6 +217,30 @@ public class FlashcardsManager
         }
     }
 
+    public async Task<bool> DeleteUnit(Unit unit)
+    {
+        bool confirm = _form.ShowQuestion("Are you sure to delete this unit?", "Confirm");
+        if (!confirm)
+        {
+            return false;
+        }
+        var requestMaker = new RequestMaker(AccountManager.GetCurrentUser());
+        try
+        {
+            var response = await requestMaker.Delete($"api/units/{unit.id}");
+            if (response.StatusCode != 204)
+            {
+                _form.ShowError(response);
+            }
+            _form.ShowMessage("Unit deleted successfully.", "Success");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _form.ShowMessage(ex.Message, "Error");
+            return false;
+        }
+    }
     public static List<Deck> GetDecks()
     {
         return _decks;

@@ -1,3 +1,4 @@
+using ToLearn.Models.Account;
 using ToLearn.Utils;
 
 namespace ToLearn.Forms;
@@ -15,6 +16,13 @@ public partial class MainForm : CustomForm
     private async void MainForm_Load(object sender, EventArgs e)
     {
         AccountManager.LoadUser();
+        User user = AccountManager.GetCurrentUser();
+        if (user != null)
+        {
+            accountButton.Enabled = false;
+            await _accountManager.Login(user.Email, user.Password);
+            accountButton.Enabled = true;
+        }
         await UpdateControls();
     }
 

@@ -36,6 +36,17 @@ public partial class ShowUnitsForm : CustomForm
         Visible = true;
     }
 
+    private async void deleteButton_Click(object sender, EventArgs e)
+    {
+        var selectedUnit = GetSelectedUnit();
+        bool result = await _flashcardsManager.DeleteUnit(selectedUnit);
+        if (result == true)
+        {
+            await Refresh();
+            SetSelection(-1);
+        }
+    }
+
     private async void createNewUnitButton_Click(object sender, EventArgs e)
     {
         var createUnitForm = new CreateUnitForm(_deck);
@@ -78,7 +89,7 @@ public partial class ShowUnitsForm : CustomForm
         }
     }
 
-private async new Task Refresh()
+    private async new Task Refresh()
     {
         await _flashcardsManager.ShowUnits(_deck);
         UpdateControls();
