@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Text.Json;
 using ToLearn.Forms;
 using ToLearn.Models.Flashcards;
 using ToLearn.Models.RequestMaker;
@@ -241,6 +235,35 @@ public class FlashcardsManager
             return false;
         }
     }
+
+    public async Task<bool> ShowCards(Unit unit)
+    {
+        var requestMaker = new RequestMaker(AccountManager.GetCurrentUser());
+        try
+        {
+            var response = await requestMaker.Get($"api/cards/unit{unit.id}");
+            if (response.StatusCode != 200)
+            {
+                _form.ShowError(response);
+                return false;
+            }
+            List<Card> cards = JsonSerializer.Deserialize<List<Card>>(response.Body);
+            SetCards(cards);
+            List<string> options = new();
+            foreach (Card card in cards)
+            {
+                options.Add($"{card.question}: {card.answer}");
+            }
+            _form.SetComboBox("Cards", options);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _form.ShowMessage(ex.Message, "Error");
+            return false;
+        }
+    }
+
     public static List<Deck> GetDecks()
     {
         return _decks;
@@ -259,5 +282,15 @@ public class FlashcardsManager
     public static List<Unit> GetUnits()
     {
         return _units;
+    }
+
+    public static List<Card> GetCards()
+    {
+        return _cards;
+    }
+
+    public static void SetCards(List<Card> cards)
+    {
+        _cards = cards;
     }
 }
