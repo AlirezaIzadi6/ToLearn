@@ -180,6 +180,34 @@ public class FlashcardsManager
         }
     }
 
+    public async Task<bool> EditUnit(int id, string name, string description)
+    {
+        var unit = new Unit()
+        {
+            id = id,
+            name = name,
+            description = description
+        };
+        var requestMaker = new RequestMaker(AccountManager.GetCurrentUser());
+        try
+        {
+            var response = await requestMaker.Put($"api/units/{id}", unit);
+            if (response.StatusCode != 204)
+            {
+                _form.ShowError(response);
+                return false;
+            }
+            _form.ShowMessage("Changes saved successfully.", "Success");
+            _form.CloseForm();
+            return true;
+        }
+        catch(Exception ex)
+        {
+            _form.ShowMessage(ex.Message, "Error");
+            return false;
+        }
+    }
+
     public static List<Deck> GetDecks()
     {
         return _decks;
