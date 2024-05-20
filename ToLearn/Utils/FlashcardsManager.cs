@@ -23,7 +23,7 @@ public class FlashcardsManager
         _form = form;
     }
 
-    public async void FillDecks()
+    public async Task<bool> FillDecks()
     {
         var requestMaker = new RequestMaker(AccountManager.GetCurrentUser());
         try
@@ -32,7 +32,7 @@ public class FlashcardsManager
             if (response.StatusCode != 200)
             {
                 _form.ShowError(response);
-                return;
+                return false;
             }
             List<Deck> decks = JsonSerializer.Deserialize<List<Deck>>(response.Body);
             SetDecks(decks);
@@ -42,14 +42,16 @@ public class FlashcardsManager
                 options.Add($"{deck.title} by {deck.creator}");
             }
             _form.SetComboBox("Decks", options);
+            return true;
         }
         catch (Exception ex)
         {
             _form.ShowMessage(ex.Message, "Error");
+            return false;
         }
     }
 
-    public async Task CreateDeck(string title, string description)
+    public async Task<bool> CreateDeck(string title, string description)
     {
         var newDeck = new Deck()
         {
@@ -63,19 +65,21 @@ public class FlashcardsManager
             if (response.StatusCode != 201)
             {
                 _form.ShowError(response);
-                return;
+                return false;
             }
             Deck createdDeck = JsonSerializer.Deserialize<Deck>(response.Body);
             _form.ShowMessage("Deck created successfully.", "Success");
             _form.CloseForm();
+            return true;
         }
         catch (Exception ex)
         {
             _form.ShowMessage(ex.Message, "Error");
+            return false;
         }
     }
 
-    public async Task EditDeck(int id, string title, string description)
+    public async Task<bool> EditDeck(int id, string title, string description)
     {
         var deck = new Deck()
         {
@@ -90,24 +94,25 @@ public class FlashcardsManager
             if (response.StatusCode != 204)
             {
                 _form.ShowError(response);
-                return;
+                return false;
             }
             _form.ShowMessage("Your changes are saved successfully.", "Success");
             _form.CloseForm();
-            return;
+            return true;
         }
         catch(Exception ex)
         {
             _form.ShowMessage(ex.Message, "Error");
+            return false;
         }
     }
 
-    public async Task DeleteDeck(Deck deck)
+    public async Task<bool> DeleteDeck(Deck deck)
     {
         bool confirm = _form.ShowQuestion($"Are you sure to deleete {deck.title}?", "Confirm");
         if (!confirm)
         {
-            return;
+            return false;
         }
         var requestMaker = new RequestMaker(AccountManager.GetCurrentUser());
         try
@@ -116,17 +121,19 @@ public class FlashcardsManager
             if (response.StatusCode != 204)
             {
                 _form.ShowError(response);
-                return;
+                return false;
             }
             _form.ShowMessage("Deck deleted successfully.", "Success");
+            return true;
         }
         catch (Exception ex)
         {
             _form.ShowMessage(ex.Message, "Error");
+            return false;
         }
     }
 
-    public async Task ShowUnits(Deck deck)
+    public async Task<bool> ShowUnits(Deck deck)
     {
         var requestMaker = new RequestMaker(AccountManager.GetCurrentUser());
         try
@@ -135,7 +142,7 @@ public class FlashcardsManager
             if (response.StatusCode != 200)
             {
                 _form.ShowError(response);
-                return;
+                return false;
             }
             List<Unit> units = JsonSerializer.Deserialize<List<Unit>>(response.Body);
             SetUnits(units);
@@ -145,10 +152,12 @@ public class FlashcardsManager
                 options.Add(unit.name);
             }
             _form.SetComboBox("Units", options);
+            return true;
         }
         catch(Exception ex)
         {
             _form.ShowMessage(ex.Message, "Error");
+            return false;
         }
     }
 
