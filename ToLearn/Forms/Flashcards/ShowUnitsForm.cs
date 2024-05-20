@@ -26,6 +26,14 @@ public partial class ShowUnitsForm : CustomForm
         UpdateControls();
     }
 
+    private void editButton_Click(object sender, EventArgs e)
+    {
+        var editUnitForm = new EditUnitForm(GetSelectedUnit());
+        Visible = false;
+        editUnitForm.ShowDialog();
+        Visible = true;
+    }
+
     private void createNewUnitButton_Click(object sender, EventArgs e)
     {
         var createUnitForm = new CreateUnitForm(_deck);
