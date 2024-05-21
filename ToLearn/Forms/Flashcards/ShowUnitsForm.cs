@@ -69,8 +69,8 @@ public partial class ShowUnitsForm : CustomForm
         {
             return null;
         }
-        var units = FlashcardsManager.GetUnits();
-        return units[selectedIndex];
+        var unit = FlashcardsManager.Units[selectedIndex];
+        return unit;
     }
 
     private void UpdateControls()
@@ -107,7 +107,7 @@ public partial class ShowUnitsForm : CustomForm
                 break;
             default:
                 int counter = 0;
-                foreach (Unit unit in FlashcardsManager.GetUnits())
+                foreach (Unit unit in FlashcardsManager.Units)
                 {
                     if (unit.id == option)
                     {

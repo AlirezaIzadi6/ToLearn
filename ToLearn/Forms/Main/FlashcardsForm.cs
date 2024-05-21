@@ -22,8 +22,8 @@ public partial class FlashcardsForm : CustomForm
     private void decksComboBox_SelectedIndexChanged(object sender, EventArgs e)
     {
         int index = decksComboBox.SelectedIndex;
-        List<Deck> decks = FlashcardsManager.GetDecks();
-        descriptionTextBox.Text = decks[index].description;
+        var deck = FlashcardsManager.Decks[index];
+        descriptionTextBox.Text = deck.description;
         UpdateControls();
     }
 
@@ -79,7 +79,7 @@ public partial class FlashcardsForm : CustomForm
         {
             return null;
         }
-        Deck selectedDeck = FlashcardsManager.GetDecks()[selectedIndex];
+        Deck selectedDeck = FlashcardsManager.Decks[selectedIndex];
         return selectedDeck;
     }
 
@@ -117,7 +117,7 @@ public partial class FlashcardsForm : CustomForm
                 break;
             default:
                 int counter = 0;
-                foreach (Deck deck in FlashcardsManager.GetDecks())
+                foreach (Deck deck in FlashcardsManager.Decks)
                 {
                     if (deck.id == option)
                     {

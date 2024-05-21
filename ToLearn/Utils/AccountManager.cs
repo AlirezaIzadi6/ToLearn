@@ -130,7 +130,7 @@ public class AccountManager
             _userIsLoggedIn = userInfo.email == null ? false : true;
             return _userIsLoggedIn;
         }
-        catch (Exception ex)
+        catch
         {
             return false;
         }

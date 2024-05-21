@@ -52,8 +52,8 @@ public partial class ShowCardsForm : CustomForm
             return null;
         }
         int selectedIndex = cardsComboBox.SelectedIndex;
-        List<Card> cards = FlashcardsManager.GetCards();
-        return cards[selectedIndex];
+        Card card = FlashcardsManager.Cards[selectedIndex];
+        return card;
     }
 
     private void UpdateControls()
@@ -72,7 +72,7 @@ public partial class ShowCardsForm : CustomForm
         }
     }
 
-    private async Task Refresh()
+    private async new Task Refresh()
     {
         await _flashcardsManager.ShowCards(_unit);
         UpdateControls();

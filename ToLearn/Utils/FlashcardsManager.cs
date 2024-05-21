@@ -8,9 +8,10 @@ namespace ToLearn.Utils;
 public class FlashcardsManager
 {
     private readonly ICustomForm _form;
-    private static List<Deck> _decks;
-    private static List<Unit> _units;
-    private static List<Card> _cards;
+
+    public static List<Deck> Decks { get;  private set; }
+    public static List<Unit> Units { get; private set; }
+    public static List<Card> Cards { get; private set; }
 
     public FlashcardsManager(ICustomForm form)
     {
@@ -28,10 +29,9 @@ public class FlashcardsManager
                 _form.ShowError(response);
                 return false;
             }
-            List<Deck> decks = JsonSerializer.Deserialize<List<Deck>>(response.Body);
-            SetDecks(decks);
+            Decks = JsonSerializer.Deserialize<List<Deck>>(response.Body);
             var options = new List<string>();
-            foreach (var deck in decks)
+            foreach (var deck in Decks)
             {
                 options.Add($"{deck.title} by {deck.creator}");
             }
@@ -138,10 +138,9 @@ public class FlashcardsManager
                 _form.ShowError(response);
                 return false;
             }
-            List<Unit> units = JsonSerializer.Deserialize<List<Unit>>(response.Body);
-            SetUnits(units);
+            Units = JsonSerializer.Deserialize<List<Unit>>(response.Body);
             var options = new List<string>();
-            foreach (Unit unit in units)
+            foreach (Unit unit in Units)
             {
                 options.Add(unit.name);
             }
@@ -247,10 +246,9 @@ public class FlashcardsManager
                 _form.ShowError(response);
                 return false;
             }
-            List<Card> cards = JsonSerializer.Deserialize<List<Card>>(response.Body);
-            SetCards(cards);
+            Cards = JsonSerializer.Deserialize<List<Card>>(response.Body);
             List<string> options = new();
-            foreach (Card card in cards)
+            foreach (Card card in Cards)
             {
                 options.Add($"{card.question}: {card.answer}");
             }
@@ -262,35 +260,5 @@ public class FlashcardsManager
             _form.ShowMessage(ex.Message, "Error");
             return false;
         }
-    }
-
-    public static List<Deck> GetDecks()
-    {
-        return _decks;
-    }
-
-    public static void SetDecks(List<Deck> decks)
-    {
-        _decks = decks;
-    }
-
-    public static void SetUnits(List<Unit> units)
-    {
-        _units = units;
-    }
-
-    public static List<Unit> GetUnits()
-    {
-        return _units;
-    }
-
-    public static List<Card> GetCards()
-    {
-        return _cards;
-    }
-
-    public static void SetCards(List<Card> cards)
-    {
-        _cards = cards;
     }
 }
