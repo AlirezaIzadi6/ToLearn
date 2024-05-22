@@ -73,6 +73,16 @@ public class CustomForm : Form, ICustomForm
         }
     }
 
+    public void SetText(string tag, string text)
+    {
+        var control = FindByTag(tag);
+        if (control == null)
+        {
+            return;
+        }
+        control.Text = text;
+    }
+
     public void ChangeEnabled(List<string> tags, bool enabled)
     {
         foreach (string tag in tags)
@@ -116,5 +126,6 @@ public interface ICustomForm
     public void ShowError(Response response);
     public void CloseForm();
     public void SetComboBox(string tag, List<string> options);
+    public void SetText(string tag, string text);
     public void ChangeEnabled(List<string>  tags, bool enabled);
 }
