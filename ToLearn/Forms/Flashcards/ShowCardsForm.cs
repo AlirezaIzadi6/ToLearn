@@ -115,7 +115,7 @@ public partial class ShowCardsForm : CustomForm
 
     private async new Task Refresh()
     {
-        await _flashcardsManager.ShowCards(_unit);
+        await _flashcardsManager.ShowCards(_unit, "ComboBox");
         UpdateControls();
     }
 }
