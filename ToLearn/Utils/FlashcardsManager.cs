@@ -44,7 +44,8 @@ public class FlashcardsManager
             title = title,
             description = description
         };
-        return MakeRequest<Deck>(201, "api/decks", "Post", newDeck, "Deck created successfully.").Result.Success;
+        var result = await MakeRequest<Deck>(201, "api/decks", "Post", newDeck, "Deck created successfully.");
+        return result.Success;
     }
 
     public async Task<bool> EditDeck(int id, string title, string description)
@@ -55,7 +56,8 @@ public class FlashcardsManager
             title = title,
             description = description
         };
-        return MakeRequest<Deck>(204, $"api/decks/{id}", "Put", deck, "Changes saved successfully.").Result.Success;
+        var result = await MakeRequest<Deck>(204, $"api/decks/{id}", "Put", deck, "Changes saved successfully.");
+        return result.Success;
     }
 
     public async Task<bool> DeleteDeck(Deck deck)
@@ -65,7 +67,8 @@ public class FlashcardsManager
         {
             return false;
         }
-        return MakeRequest<int?>(204, "api/decks", "Delete", null, "Deck deleted successfully.").Result.Success;
+        var result = await MakeRequest<int?>(204, "api/decks", "Delete", null, "Deck deleted successfully.");
+        return result.Success;
     }
 
     public async Task<bool> ShowUnits(Deck deck)
@@ -93,7 +96,8 @@ public class FlashcardsManager
             description = description,
             deckId = id
         };
-        return MakeRequest<Unit>(201, "api/units", "Post", newUnit, "Unit created successfully.").Result.Success;
+        var result = await MakeRequest<Unit>(201, "api/units", "Post", newUnit, "Unit created successfully.");
+        return result.Success;
     }
 
     public async Task<bool> EditUnit(int id, string name, string description)
@@ -104,7 +108,8 @@ public class FlashcardsManager
             name = name,
             description = description
         };
-        return MakeRequest<Unit>(204, $"api/units/{id}", "Put", unit, "Changes saved successfully.").Result.Success;
+        var result = await MakeRequest<Unit>(204, $"api/units/{id}", "Put", unit, "Changes saved successfully.");
+        return result.Success;
     }
 
     public async Task<bool> DeleteUnit(Unit unit)
@@ -114,7 +119,8 @@ public class FlashcardsManager
         {
             return false;
         }
-        return MakeRequest<int?>(204, "api/units", "Delete", null, "Unit deleted successfully.").Result.Success;
+        var     result = await (204, "api/units", "Delete", null, "Unit deleted successfully.");
+        return result.Success;
     }
 
     public async Task<bool> ShowCards(Unit unit)
@@ -134,15 +140,17 @@ public class FlashcardsManager
         return false;
     }
 
-    public async Task<bool> CreateCard(string question, string answer,  string description)
+    public async Task<bool> CreateCard(int unitId, string question, string answer,  string description)
     {
         var newCard = new Card()
         {
             question = question,
             answer = answer,
-            description = description
+            description = description,
+            unitId = unitId
         };
-        return MakeRequest<Card>(201, "api/cards", "Post", newCard).Result.Success;
+        var success = await MakeRequest<Card>(201, "api/cards", "Post", newCard);
+        return success.Success;
     }
 
     public async Task<bool> EditCard(int id, string question, string answer, string description)
@@ -154,7 +162,8 @@ public class FlashcardsManager
             answer = answer,
             description = description
         };
-        return MakeRequest(204, $"api/cards/{id}", "Put", card).Result.Success;
+        var result = await "api/cards/{id}", "Put", card);
+        return result.Success;
     }
 
     public async Task<bool> DeleteCard(Card card)
@@ -164,7 +173,8 @@ public class FlashcardsManager
         {
             return false;
         }
-        return MakeRequest<int?>(204, $"api/cards/{card.id}", "Delete", null).Result.Success;
+        var result = await 204, $"api/cards/{card.id}", "Delete", null);
+        return result.Success;
     }
 
     private async Task<FlashcardsResponse> MakeRequest<T>(int successCode, string path, string method, T? obj, string? successMessage = null)
