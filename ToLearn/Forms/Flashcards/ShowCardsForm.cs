@@ -22,22 +22,38 @@ public partial class ShowCardsForm : CustomForm
 
     private void cardsComboBox_SelectedIndexChanged(object sender, EventArgs e)
     {
-
+        UpdateControls();
     }
 
-    private void editButton_Click(object sender, EventArgs e)
+    private async void editButton_Click(object sender, EventArgs e)
     {
-
+        var selectedCard = GetSelection();
+        var editCardForm = new EditCardForm(selectedCard);
+        Visible = false;
+        editCardForm.ShowDialog();
+        await Refresh();
+        SetSelection(selectedCard.id);
+        Visible = true;
     }
 
-    private void deleteButton_Click(object sender, EventArgs e)
+    private async void deleteButton_Click(object sender, EventArgs e)
     {
-
+        bool result = await _flashcardsManager.DeleteCard(GetSelection());
+        if (result == true)
+        {
+            await Refresh();
+            SetSelection(-1);
+        }
     }
 
-    private void createNewButton_Click(object sender, EventArgs e)
+    private async void createNewButton_Click(object sender, EventArgs e)
     {
-
+        var createCardForm = new CreateCardForm();
+        Visible = false;
+        createCardForm.ShowDialog();
+        await Refresh();
+        SetSelection(-2);
+        Visible = true;
     }
 
     private void closeButton_Click(object sender, EventArgs e)
@@ -54,6 +70,31 @@ public partial class ShowCardsForm : CustomForm
         int selectedIndex = cardsComboBox.SelectedIndex;
         Card card = FlashcardsManager.Cards[selectedIndex];
         return card;
+    }
+
+    private void SetSelection(int option)
+    {
+        switch (option)
+        {
+            case -1:
+                cardsComboBox.SelectedIndex = -1;
+                break;
+            case -2:
+                cardsComboBox.SelectedIndex = cardsComboBox.Items.Count - 1;
+                break;
+            default:
+                int counter = 0;
+                foreach (Card card in FlashcardsManager.Cards)
+                {
+                    if (card.id == option)
+                    {
+                        break;
+                    }
+                    counter++;
+                }
+                cardsComboBox.SelectedIndex = counter;
+                break;
+        }
     }
 
     private void UpdateControls()
