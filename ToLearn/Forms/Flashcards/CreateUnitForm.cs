@@ -19,7 +19,10 @@ public partial class CreateUnitForm : CustomForm
     {
         string name = nameTextBox.Text;
         string description = descriptionTextBox.Text;
-        await _flashcardsManager.CreateUnit(_deck.id, name, description);
+        if (await _flashcardsManager.CreateUnit(_deck.id, name, description))
+        {
+            CloseForm();
+        }
     }
 
     private void cancelButton_Click(object sender, EventArgs e)

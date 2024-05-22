@@ -25,7 +25,10 @@ public partial class EditUnitForm : CustomForm
     {
         string name = nameTextBox.Text;
         string description = descriptionTextBox.Text;
-        await _flashcardsManager.EditUnit(_unit.id, name, description);
+        if (await _flashcardsManager.EditUnit(_unit.id, name, description))
+        {
+            CloseForm();
+        }
     }
 
     private void cancelButton_Click(object sender, EventArgs e)

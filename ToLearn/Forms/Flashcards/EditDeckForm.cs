@@ -21,7 +21,10 @@ public partial class EditDeckForm : CustomForm
     {
         string title = titleTextBox.Text;
         string description = descriptionTextBox.Text;
-        await _flashcardsManager.EditDeck(_deck.id, title, description);
+        if (await _flashcardsManager.EditDeck(_deck.id, title, description))
+        {
+            CloseForm();
+        }
     }
 
     private void cancelButton_Click(object sender, EventArgs e)

@@ -16,7 +16,10 @@ public partial class CreateDeckForm : CustomForm
     {
         string title = titleTextBox.Text;
         string description = descriptionTextBox.Text;
-        await _flashcardsManager.CreateDeck(title, description);
+        if (await _flashcardsManager.CreateDeck(title, description))
+        {
+            CloseForm();
+        }
     }
 
     private void cancelButton_Click(object sender, EventArgs e)

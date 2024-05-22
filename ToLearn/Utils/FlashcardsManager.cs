@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Linq.Expressions;
+using System.Text.Json;
 using ToLearn.Forms;
 using ToLearn.Models.Flashcards;
 using ToLearn.Models.RequestMaker;
@@ -20,16 +21,10 @@ public class FlashcardsManager
 
     public async Task<bool> FillDecks()
     {
-        var requestMaker = new RequestMaker(AccountManager.GetCurrentUser());
-        try
+        var result = await MakeRequest<int?>(200, "api/decks", "Get", null);
+        if (result.Success)
         {
-            var response = await requestMaker.Get("api/Decks");
-            if (response.StatusCode != 200)
-            {
-                _form.ShowError(response);
-                return false;
-            }
-            Decks = JsonSerializer.Deserialize<List<Deck>>(response.Body);
+            Decks = JsonSerializer.Deserialize<List<Deck>>(result.Body);
             var options = new List<string>();
             foreach (var deck in Decks)
             {
@@ -38,11 +33,7 @@ public class FlashcardsManager
             _form.SetComboBox("Decks", options);
             return true;
         }
-        catch (Exception ex)
-        {
-            _form.ShowMessage(ex.Message, "Error");
-            return false;
-        }
+        return false;
     }
 
     public async Task<bool> CreateDeck(string title, string description)
@@ -52,25 +43,7 @@ public class FlashcardsManager
             title = title,
             description = description
         };
-        var requestMaker = new RequestMaker(AccountManager.GetCurrentUser());
-        try
-        {
-            var response = await requestMaker.Post("api/decks", newDeck);
-            if (response.StatusCode != 201)
-            {
-                _form.ShowError(response);
-                return false;
-            }
-            Deck createdDeck = JsonSerializer.Deserialize<Deck>(response.Body);
-            _form.ShowMessage("Deck created successfully.", "Success");
-            _form.CloseForm();
-            return true;
-        }
-        catch (Exception ex)
-        {
-            _form.ShowMessage(ex.Message, "Error");
-            return false;
-        }
+        return MakeRequest<Deck>(201, "api/decks", "Post", newDeck, "Deck created successfully.").Result.Success;
     }
 
     public async Task<bool> EditDeck(int id, string title, string description)
@@ -81,24 +54,7 @@ public class FlashcardsManager
             title = title,
             description = description
         };
-        var requestMaker = new RequestMaker( AccountManager.GetCurrentUser());
-        try
-        {
-            var response = await requestMaker.Put($"api/decks/{id}", deck);
-            if (response.StatusCode != 204)
-            {
-                _form.ShowError(response);
-                return false;
-            }
-            _form.ShowMessage("Your changes are saved successfully.", "Success");
-            _form.CloseForm();
-            return true;
-        }
-        catch(Exception ex)
-        {
-            _form.ShowMessage(ex.Message, "Error");
-            return false;
-        }
+        return MakeRequest<Deck>(200, "api/decks", "Put", deck, "Changes saved successfully.").Result.Success;
     }
 
     public async Task<bool> DeleteDeck(Deck deck)
@@ -108,37 +64,15 @@ public class FlashcardsManager
         {
             return false;
         }
-        var requestMaker = new RequestMaker(AccountManager.GetCurrentUser());
-        try
-        {
-            var response = await requestMaker.Delete($"api/decks/{deck.id}");
-            if (response.StatusCode != 204)
-            {
-                _form.ShowError(response);
-                return false;
-            }
-            _form.ShowMessage("Deck deleted successfully.", "Success");
-            return true;
-        }
-        catch (Exception ex)
-        {
-            _form.ShowMessage(ex.Message, "Error");
-            return false;
-        }
+        return MakeRequest<int?>(204, "api/decks", "Delete", null, "Deck deleted successfully.").Result.Success;
     }
 
     public async Task<bool> ShowUnits(Deck deck)
     {
-        var requestMaker = new RequestMaker(AccountManager.GetCurrentUser());
-        try
+        var result = await MakeRequest<int?>(200, $"api/units/deck{deck.id}", "Get", null);
+        if (result.Success)
         {
-            var response = await requestMaker.Get($"api/units/deck{deck.id}");
-            if (response.StatusCode != 200)
-            {
-                _form.ShowError(response);
-                return false;
-            }
-            Units = JsonSerializer.Deserialize<List<Unit>>(response.Body);
+            Units = JsonSerializer.Deserialize<List<Unit>>(result.Body);
             var options = new List<string>();
             foreach (Unit unit in Units)
             {
@@ -147,11 +81,7 @@ public class FlashcardsManager
             _form.SetComboBox("Units", options);
             return true;
         }
-        catch(Exception ex)
-        {
-            _form.ShowMessage(ex.Message, "Error");
-            return false;
-        }
+        return false;
     }
 
     public async Task<bool> CreateUnit(int id, string name, string description)
@@ -162,24 +92,7 @@ public class FlashcardsManager
             description = description,
             deckId = id
         };
-        var requestMaker = new RequestMaker(AccountManager.GetCurrentUser());
-        try
-        {
-            var response = await requestMaker.Post("api/units", newUnit);
-            if (response.StatusCode != 201)
-            {
-                _form.ShowError(response);
-                return false;
-            }
-            _form.ShowMessage("Unit created successfully.", "Success");
-            _form.CloseForm();
-            return true;
-        }
-        catch (Exception ex)
-        {
-            _form.ShowMessage(ex.Message, "Error");
-            return false;
-        }
+        return MakeRequest<Unit>(201, "api/units", "Post", newUnit, "Unit created successfully.").Result.Success;
     }
 
     public async Task<bool> EditUnit(int id, string name, string description)
@@ -190,24 +103,7 @@ public class FlashcardsManager
             name = name,
             description = description
         };
-        var requestMaker = new RequestMaker(AccountManager.GetCurrentUser());
-        try
-        {
-            var response = await requestMaker.Put($"api/units/{id}", unit);
-            if (response.StatusCode != 204)
-            {
-                _form.ShowError(response);
-                return false;
-            }
-            _form.ShowMessage("Changes saved successfully.", "Success");
-            _form.CloseForm();
-            return true;
-        }
-        catch(Exception ex)
-        {
-            _form.ShowMessage(ex.Message, "Error");
-            return false;
-        }
+        return MakeRequest<Unit>(204, "api/units", "Put", unit, "Changes saved successfully.").Result.Success;
     }
 
     public async Task<bool> DeleteUnit(Unit unit)
@@ -217,36 +113,15 @@ public class FlashcardsManager
         {
             return false;
         }
-        var requestMaker = new RequestMaker(AccountManager.GetCurrentUser());
-        try
-        {
-            var response = await requestMaker.Delete($"api/units/{unit.id}");
-            if (response.StatusCode != 204)
-            {
-                _form.ShowError(response);
-            }
-            _form.ShowMessage("Unit deleted successfully.", "Success");
-            return true;
-        }
-        catch (Exception ex)
-        {
-            _form.ShowMessage(ex.Message, "Error");
-            return false;
-        }
+        return MakeRequest<int?>(204, "api/units", "Delete", null, "Unit deleted successfully.").Result.Success;
     }
 
     public async Task<bool> ShowCards(Unit unit)
     {
-        var requestMaker = new RequestMaker(AccountManager.GetCurrentUser());
-        try
+        var result = await MakeRequest<int?>(200, $"api/cards/unit{unit.id}", "Get", null);
+        if (result.Success)
         {
-            var response = await requestMaker.Get($"api/cards/unit{unit.id}");
-            if (response.StatusCode != 200)
-            {
-                _form.ShowError(response);
-                return false;
-            }
-            Cards = JsonSerializer.Deserialize<List<Card>>(response.Body);
+            Cards = JsonSerializer.Deserialize<List<Card>>(result.Body);
             List<string> options = new();
             foreach (Card card in Cards)
             {
@@ -255,10 +130,51 @@ public class FlashcardsManager
             _form.SetComboBox("Cards", options);
             return true;
         }
+        return false;
+    }
+
+    private async Task<FlashcardsResponse> MakeRequest<T>(int successCode, string path, string method, T? obj, string? successMessage = null)
+    {
+        FlashcardsResponse result = new();
+        var requestMaker = new RequestMaker(AccountManager.GetCurrentUser());
+        try
+        {
+            Response response = null;
+            switch(method)
+            {
+                case "Get":
+                    response = await requestMaker.Get(path);
+                    break;
+                case "Post":
+                    response = await requestMaker.Post(path, obj);
+                    break;
+                case "Put":
+                    response = await requestMaker.Put(path, obj);
+                    break;
+                case "Delete":
+                    response = await requestMaker.Delete(path);
+                    break;
+            }
+            if (response.StatusCode != successCode)
+            {
+                result.Success = false;
+                _form.ShowError(response);
+            }
+            else
+            {
+                result.Success = true;
+                result.Body = response.Body;
+                if (successMessage != null)
+                {
+                    _form.ShowMessage(successMessage, "Success");
+                }
+            }
+        }
         catch (Exception ex)
         {
-            _form.ShowMessage(ex.Message, "Error");
-            return false;
+            result.Success = false;
+            _form.ShowMessage(ex.Message, "An error occurred");
         }
+        return result;
     }
 }
