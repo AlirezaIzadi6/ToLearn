@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using System.Text.Json;
+using System.Web;
 using ToLearn.Forms;
 using ToLearn.Models.Flashcards;
 using ToLearn.Models.RequestMaker;
@@ -54,7 +55,7 @@ public class FlashcardsManager
             title = title,
             description = description
         };
-        return MakeRequest<Deck>(200, "api/decks", "Put", deck, "Changes saved successfully.").Result.Success;
+        return MakeRequest<Deck>(204, $"api/decks/{id}", "Put", deck, "Changes saved successfully.").Result.Success;
     }
 
     public async Task<bool> DeleteDeck(Deck deck)
@@ -103,7 +104,7 @@ public class FlashcardsManager
             name = name,
             description = description
         };
-        return MakeRequest<Unit>(204, "api/units", "Put", unit, "Changes saved successfully.").Result.Success;
+        return MakeRequest<Unit>(204, $"api/units/{id}", "Put", unit, "Changes saved successfully.").Result.Success;
     }
 
     public async Task<bool> DeleteUnit(Unit unit)
@@ -131,6 +132,39 @@ public class FlashcardsManager
             return true;
         }
         return false;
+    }
+
+    public async Task<bool> CreateCard(string question, string answer,  string description)
+    {
+        var newCard = new Card()
+        {
+            question = question,
+            answer = answer,
+            description = description
+        };
+        return MakeRequest<Card>(201, "api/cards", "Post", newCard).Result.Success;
+    }
+
+    public async Task<bool> EditCard(int id, string question, string answer, string description)
+    {
+        var card = new Card()
+        {
+            id = id,
+            question = question,
+            answer = answer,
+            description = description
+        };
+        return MakeRequest(204, $"api/cards/{id}", "Put", card).Result.Success;
+    }
+
+    public async Task<bool> DeleteCard(Card card)
+    {
+        bool confirm = _form.ShowQuestion("Are you sure to delete this card?", "Confirm");
+        if (!confirm)
+        {
+            return false;
+        }
+        return MakeRequest<int?>(204, $"api/cards/{card.id}", "Delete", null).Result.Success;
     }
 
     private async Task<FlashcardsResponse> MakeRequest<T>(int successCode, string path, string method, T? obj, string? successMessage = null)
