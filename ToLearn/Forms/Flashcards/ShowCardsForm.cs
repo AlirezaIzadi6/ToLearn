@@ -48,7 +48,7 @@ public partial class ShowCardsForm : CustomForm
 
     private async void createNewButton_Click(object sender, EventArgs e)
     {
-        var createCardForm = new CreateCardForm();
+        var createCardForm = new CreateCardForm(_unit);
         Visible = false;
         createCardForm.ShowDialog();
         await Refresh();
