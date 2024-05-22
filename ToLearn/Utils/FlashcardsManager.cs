@@ -112,6 +112,30 @@ public class FlashcardsManager
         return result.Success;
     }
 
+    public async Task<bool> EditCards(int id, string text)
+    {
+        var cards = new List<Card>();
+        var lines = text.Split('\n');
+        foreach (string line in lines)
+        {
+            var splittedLine = line.Split('\t');
+            if (splittedLine.Length != 4)
+            {
+                continue;
+            }
+            var card = new Card()
+            {
+                id = int.Parse(splittedLine[0]),
+                question = splittedLine[1],
+                answer = splittedLine[2],
+                description = splittedLine[3]
+            };
+            cards.Add(card);
+        }
+        var result = await MakeRequest(200, $"api/units/{id}/editcards", "Put", cards);
+        return result.Success;
+    }
+
     public async Task<bool> DeleteUnit(Unit unit)
     {
         bool confirm = _form.ShowQuestion("Are you sure to delete this unit?", "Confirm");
@@ -119,22 +143,35 @@ public class FlashcardsManager
         {
             return false;
         }
-        var     result = await (204, "api/units", "Delete", null, "Unit deleted successfully.");
+        var     result = await MakeRequest<int?>(204, "api/units", "Delete", null, "Unit deleted successfully.");
         return result.Success;
     }
 
-    public async Task<bool> ShowCards(Unit unit)
+    public async Task<bool> ShowCards(Unit unit, string mode)
     {
         var result = await MakeRequest<int?>(200, $"api/cards/unit{unit.id}", "Get", null);
         if (result.Success)
         {
             Cards = JsonSerializer.Deserialize<List<Card>>(result.Body);
-            List<string> options = new();
-            foreach (Card card in Cards)
+            if (mode == "ComboBox")
             {
-                options.Add($"{card.question}: {card.answer}");
+                List<string> options = new();
+                foreach (Card card in Cards)
+                {
+                    options.Add($"{card.question}: {card.answer}");
+                }
+                _form.SetComboBox("Cards", options);
             }
-            _form.SetComboBox("Cards", options);
+            else if (mode == "TextBox")
+            {
+                var lines = new List<string>();
+                foreach(Card card in Cards)
+                {
+                    lines.Add($"{card.id}\t{card.question}\t{card.answer}\t{card.description}");
+                }
+                string text = string.Join('\n', lines.ToArray());
+                _form.SetText("Cards", text);
+            }
             return true;
         }
         return false;
@@ -162,7 +199,7 @@ public class FlashcardsManager
             answer = answer,
             description = description
         };
-        var result = await "api/cards/{id}", "Put", card);
+        var result = await MakeRequest(200, $"api/cards/{id}", "Put", card);
         return result.Success;
     }
 
@@ -173,7 +210,7 @@ public class FlashcardsManager
         {
             return false;
         }
-        var result = await 204, $"api/cards/{card.id}", "Delete", null);
+        var result = await MakeRequest<int?>(204, $"api/cards/{card.id}", "Delete", null);
         return result.Success;
     }
 
