@@ -115,7 +115,7 @@ public class FlashcardsManager
     public async Task<bool> EditCards(int id, string text)
     {
         var cards = new List<Card>();
-        var lines = text.Split('\n');
+        var lines = text.Split("\r\n");
         foreach (string line in lines)
         {
             var splittedLine = line.Split('\t');
@@ -123,12 +123,22 @@ public class FlashcardsManager
             {
                 continue;
             }
+            int extractedId;
+            try
+            {
+                extractedId = int.Parse(splittedLine[0]);
+            }
+            catch
+            {
+                extractedId = 0;
+            }
             var card = new Card()
             {
-                id = int.Parse(splittedLine[0]),
+                id = extractedId,
                 question = splittedLine[1],
                 answer = splittedLine[2],
-                description = splittedLine[3]
+                description = splittedLine[3],
+                unitId = id
             };
             cards.Add(card);
         }
@@ -169,7 +179,7 @@ public class FlashcardsManager
                 {
                     lines.Add($"{card.id}\t{card.question}\t{card.answer}\t{card.description}");
                 }
-                string text = string.Join('\n', lines.ToArray());
+                string text = string.Join("\r\n", lines.ToArray());
                 _form.SetText("Cards", text);
             }
             return true;
@@ -186,8 +196,8 @@ public class FlashcardsManager
             description = description,
             unitId = unitId
         };
-        var success = await MakeRequest<Card>(201, "api/cards", "Post", newCard);
-        return success.Success;
+        var result = await MakeRequest<Card>(201, "api/cards", "Post", newCard);
+        return result.Success;
     }
 
     public async Task<bool> EditCard(int id, string question, string answer, string description)
