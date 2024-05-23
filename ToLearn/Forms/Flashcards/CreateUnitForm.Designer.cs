@@ -49,7 +49,7 @@
             descriptionTextBox.Location = new Point(8, 8);
             descriptionTextBox.Multiline = true;
             descriptionTextBox.Name = "descriptionTextBox";
-            descriptionTextBox.Size = new Size(100, 23);
+            descriptionTextBox.Size = new Size(300, 23);
             descriptionTextBox.TabIndex = 1;
             descriptionTextBox.Tag = "Description";
             // 

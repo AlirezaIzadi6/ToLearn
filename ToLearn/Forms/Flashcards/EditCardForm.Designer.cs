@@ -41,7 +41,7 @@
             questionTextBox.Location = new Point(0, 0);
             questionTextBox.Multiline = true;
             questionTextBox.Name = "questionTextBox";
-            questionTextBox.Size = new Size(100, 23);
+            questionTextBox.Size = new Size(300, 23);
             questionTextBox.TabIndex = 0;
             questionTextBox.Tag = "Question";
             // 
@@ -60,7 +60,7 @@
             descriptionTextBox.Location = new Point(16, 16);
             descriptionTextBox.Multiline = true;
             descriptionTextBox.Name = "descriptionTextBox";
-            descriptionTextBox.Size = new Size(100, 23);
+            descriptionTextBox.Size = new Size(300, 23);
             descriptionTextBox.TabIndex = 2;
             descriptionTextBox.Tag = "Description";
             // 

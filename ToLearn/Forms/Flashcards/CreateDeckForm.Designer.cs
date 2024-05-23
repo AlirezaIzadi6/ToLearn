@@ -58,8 +58,9 @@
             // 
             descriptionTextBox.AccessibleName = "Deck description";
             descriptionTextBox.Location = new Point(16, 16);
+            descriptionTextBox.Multiline = true;
             descriptionTextBox.Name = "descriptionTextBox";
-            descriptionTextBox.Size = new Size(100, 23);
+            descriptionTextBox.Size = new Size(300, 23);
             descriptionTextBox.TabIndex = 1;
             descriptionTextBox.Tag = "Description";
             // 

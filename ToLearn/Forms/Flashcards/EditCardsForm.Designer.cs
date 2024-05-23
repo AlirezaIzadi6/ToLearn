@@ -39,9 +39,10 @@
             cardsTextBox.Location = new Point(0, 0);
             cardsTextBox.Multiline = true;
             cardsTextBox.Name = "cardsTextBox";
-            cardsTextBox.Size = new Size(100, 23);
+            cardsTextBox.Size = new Size(500, 23);
             cardsTextBox.TabIndex = 0;
             cardsTextBox.Tag = "Cards";
+            cardsTextBox.WordWrap = false;
             // 
             // saveButton
             // 
