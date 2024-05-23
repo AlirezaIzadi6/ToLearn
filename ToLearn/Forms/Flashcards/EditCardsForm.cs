@@ -16,14 +16,18 @@ public partial class EditCardsForm : CustomForm
         _unit = unit;
     }
 
-    private void EditCardsForm_Load(object sender, EventArgs e)
+    private async void EditCardsForm_Load(object sender, EventArgs e)
     {
-
+        await _flashcardsManager.ShowCards(_unit, "TextBox");
     }
 
-    private void saveButton_Click(object sender, EventArgs e)
+    private async void saveButton_Click(object sender, EventArgs e)
     {
-
+        string text = cardsTextBox.Text;
+        if (await _flashcardsManager.EditCards(_unit.id, text))
+        {
+            CloseForm();
+        }
     }
 
     private void cancelButton_Click(object sender, EventArgs e)

@@ -25,6 +25,14 @@ public partial class ShowUnitsForm : CustomForm
         UpdateControls();
     }
 
+    private void editCardsButton_Click(object sender, EventArgs e)
+    {
+        var editCardsForm = new EditCardsForm(GetSelectedUnit());
+        Visible = false;
+        editCardsForm.ShowDialog();
+        Visible = true;
+    }
+
     private async void editButton_Click(object sender, EventArgs e)
     {
         Unit selectedUnit = GetSelectedUnit();
@@ -77,7 +85,7 @@ public partial class ShowUnitsForm : CustomForm
     {
         var controlTags = new List<string>()
         {
-            "ShowCards", "Edit", "Delete"
+            "ShowCards", "EditCards", "Edit", "Delete"
         };
         if (GetSelectedUnit() != null)
         {

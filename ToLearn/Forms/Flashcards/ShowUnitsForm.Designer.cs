@@ -34,6 +34,7 @@
             createNewUnitButton = new Button();
             closeButton = new Button();
             unitsComboBox = new ComboBox();
+            editCardsButton = new Button();
             SuspendLayout();
             // 
             // showCardsButton
@@ -106,11 +107,24 @@
             unitsComboBox.Tag = "Units";
             unitsComboBox.SelectedIndexChanged += unitsComboBox_SelectedIndexChanged;
             // 
+            // editCardsButton
+            // 
+            editCardsButton.Enabled = false;
+            editCardsButton.Location = new Point(0, 0);
+            editCardsButton.Name = "editCardsButton";
+            editCardsButton.Size = new Size(75, 23);
+            editCardsButton.TabIndex = 2;
+            editCardsButton.Tag = "EditCards";
+            editCardsButton.Text = "Edit cards";
+            editCardsButton.UseVisualStyleBackColor = true;
+            editCardsButton.Click += editCardsButton_Click;
+            // 
             // ShowUnitsForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(644, 450);
+            Controls.Add(editCardsButton);
             Controls.Add(unitsComboBox);
             Controls.Add(closeButton);
             Controls.Add(createNewUnitButton);
@@ -131,5 +145,6 @@
         private Button createNewUnitButton;
         private Button closeButton;
         private ComboBox unitsComboBox;
+        private Button editCardsButton;
     }
 }
