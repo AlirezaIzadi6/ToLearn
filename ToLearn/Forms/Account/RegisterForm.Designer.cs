@@ -32,6 +32,7 @@
             passwordTextBox = new TextBox();
             registerButton = new Button();
             cancelButton = new Button();
+            userNameTextBox = new TextBox();
             SuspendLayout();
             // 
             // emailTextBox
@@ -49,7 +50,7 @@
             passwordTextBox.Location = new Point(8, 8);
             passwordTextBox.Name = "passwordTextBox";
             passwordTextBox.Size = new Size(100, 23);
-            passwordTextBox.TabIndex = 1;
+            passwordTextBox.TabIndex = 2;
             passwordTextBox.Tag = "Password";
             passwordTextBox.UseSystemPasswordChar = true;
             // 
@@ -58,7 +59,7 @@
             registerButton.Location = new Point(16, 16);
             registerButton.Name = "registerButton";
             registerButton.Size = new Size(75, 23);
-            registerButton.TabIndex = 2;
+            registerButton.TabIndex = 3;
             registerButton.Tag = "Register";
             registerButton.Text = "Register";
             registerButton.UseVisualStyleBackColor = true;
@@ -69,17 +70,27 @@
             cancelButton.Location = new Point(24, 24);
             cancelButton.Name = "cancelButton";
             cancelButton.Size = new Size(75, 23);
-            cancelButton.TabIndex = 3;
+            cancelButton.TabIndex = 4;
             cancelButton.Tag = "Cancel";
             cancelButton.Text = "Cancel";
             cancelButton.UseVisualStyleBackColor = true;
             cancelButton.Click += cancelButton_Click;
+            // 
+            // userNameTextBox
+            // 
+            userNameTextBox.AccessibleName = "Username";
+            userNameTextBox.Location = new Point(0, 0);
+            userNameTextBox.Name = "userNameTextBox";
+            userNameTextBox.Size = new Size(100, 23);
+            userNameTextBox.TabIndex = 1;
+            userNameTextBox.Tag = "UserName";
             // 
             // RegisterForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(644, 450);
+            Controls.Add(userNameTextBox);
             Controls.Add(cancelButton);
             Controls.Add(registerButton);
             Controls.Add(passwordTextBox);
@@ -96,5 +107,6 @@
         private TextBox passwordTextBox;
         private Button registerButton;
         private Button cancelButton;
+        private TextBox userNameTextBox;
     }
 }

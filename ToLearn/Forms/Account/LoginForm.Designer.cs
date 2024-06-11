@@ -28,20 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            emailTextBox = new TextBox();
+            userNameTextBox = new TextBox();
             passwordTextBox = new TextBox();
             loginButton = new Button();
             cancelButton = new Button();
             SuspendLayout();
             // 
-            // emailTextBox
+            // userNameTextBox
             // 
-            emailTextBox.AccessibleName = "Email";
-            emailTextBox.Location = new Point(0, 0);
-            emailTextBox.Name = "emailTextBox";
-            emailTextBox.Size = new Size(100, 23);
-            emailTextBox.TabIndex = 0;
-            emailTextBox.Tag = "Email";
+            userNameTextBox.AccessibleName = "Username";
+            userNameTextBox.Location = new Point(0, 0);
+            userNameTextBox.Name = "userNameTextBox";
+            userNameTextBox.Size = new Size(100, 23);
+            userNameTextBox.TabIndex = 0;
+            userNameTextBox.Tag = "UserName";
             // 
             // passwordTextBox
             // 
@@ -83,7 +83,7 @@
             Controls.Add(cancelButton);
             Controls.Add(loginButton);
             Controls.Add(passwordTextBox);
-            Controls.Add(emailTextBox);
+            Controls.Add(userNameTextBox);
             Name = "LoginForm";
             Text = "Login";
             ResumeLayout(false);
@@ -92,7 +92,7 @@
 
         #endregion
 
-        private TextBox emailTextBox;
+        private TextBox userNameTextBox;
         private TextBox passwordTextBox;
         private Button loginButton;
         private Button cancelButton;

@@ -15,8 +15,9 @@ public partial class RegisterForm : CustomForm
     private async void registerButton_Click(object sender, EventArgs e)
     {
         string email = emailTextBox.Text;
+        string userName = userNameTextBox.Text;
         string password = passwordTextBox.Text;
-        await _accountManager.Register(email, password);
+        await _accountManager.Register(email, userName, password);
     }
 
     private void cancelButton_Click(object sender, EventArgs e)

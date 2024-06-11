@@ -48,11 +48,12 @@ public class AccountManager
         }
     }
 
-    public async Task<bool> Register(string email, string password)
+    public async Task<bool> Register(string email, string userName, string password)
     {
         var request = new Request()
         {
             Email = email,
+            userName = userName,
             Password = password
         };
         var requestMaker = new RequestMaker();
