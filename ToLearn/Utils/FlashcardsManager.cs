@@ -209,7 +209,7 @@ public class FlashcardsManager
             answer = answer,
             description = description
         };
-        var result = await MakeRequest(200, $"api/cards/{id}", "Put", card);
+        var result = await MakeRequest(204, $"api/cards/{id}", "Put", card);
         return result.Success;
     }
 
@@ -222,6 +222,17 @@ public class FlashcardsManager
         }
         var result = await MakeRequest<int?>(204, $"api/cards/{card.id}", "Delete", null);
         return result.Success;
+    }
+
+    public async Task<List<Item>> GetItems(Deck deck)
+    {
+        var result = await MakeRequest<int?>(200, $"learn/{deck.id}?count=5", "GET", null);
+        if (result.Success)
+        {
+            var items = JsonSerializer.Deserialize<List<Item>>(result.Body);
+            return items;
+        }
+        return null;
     }
 
     private async Task<FlashcardsResponse> MakeRequest<T>(int successCode, string path, string method, T? obj, string? successMessage = null)
