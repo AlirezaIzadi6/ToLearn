@@ -18,18 +18,18 @@ public class AccountManager
         _form = form;
     }
 
-    public async Task<bool> Login(string email, string password)
+    public async Task<bool> Login(string userName, string password)
     {
         var request = new Request()
         {
-            Email = email,
+            Email = userName,
             Password = password
         };
         var result = await MakeRequest<Request>(200, "login", "Post", request);
         if (result.Success)
         {
             LoginResponse? loginResponse = JsonSerializer.Deserialize<LoginResponse>(result.Body);
-            var newUser = new User(request.Email, request.Password, loginResponse.accessToken);
+            var newUser = new User("", userName, password, loginResponse.accessToken);
             SetCurrentUser(newUser);
             Config.SaveConfig<User>(newUser);
             _userIsLoggedIn = true;

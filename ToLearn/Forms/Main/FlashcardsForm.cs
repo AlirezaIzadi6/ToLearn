@@ -102,17 +102,27 @@ public partial class FlashcardsForm : CustomForm
 
     private void UpdateControls()
     {
-        var controlTags = new List<string>()
+        var selectedTags = new List<string>()
         {
             "Learn", "Review", "ShowUnits", "Edit", "Delete"
         };
-        if (GetSelectedDeck() == null)
+        var authorizedTags = new List<string>()
         {
-            ChangeEnabled(controlTags, false);
+            "Edit", "Delete"
+        };
+
+        var selectedDeck = GetSelectedDeck();
+        if (selectedDeck == null)
+        {
+            ChangeEnabled(selectedTags, false);
         }
         else
         {
-            ChangeEnabled(controlTags, true);
+            ChangeEnabled(selectedTags, true);
+            if (selectedDeck.creator != AccountManager.GetCurrentUser().UserName)
+            {
+                ChangeEnabled(authorizedTags, false);
+            }
         }
     }
 

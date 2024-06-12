@@ -14,9 +14,9 @@ public partial class LoginForm : CustomForm
 
     private async void loginButton_Click(object sender, EventArgs e)
     {
-        string email = userNameTextBox.Text;
+        string userName = userNameTextBox.Text;
         string password = passwordTextBox.Text;
-        bool result = await _accountManager.Login(email, password);
+        bool result = await _accountManager.Login(userName, password);
         if (result == true)
         {
             CloseForm();
