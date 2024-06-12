@@ -37,7 +37,7 @@ public partial class FlashcardsForm : CustomForm
                 ShowMessage("No new card", "There is no new card to learn in this deck.");
                 return;
             }
-            var learnForm = new LearnForm(items);
+            var learnForm = new LearnForm(GetSelectedDeck().id, items);
             Visible = false;
             learnForm.ShowDialog();
             Visible = true;

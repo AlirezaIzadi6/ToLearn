@@ -8,18 +8,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ToLearn.Models.Flashcards;
+using ToLearn.Utils;
 
 namespace ToLearn.Forms.Flashcards;
 
 public partial class LearnForm : CustomForm
 {
+    private readonly FlashcardsManager _flashcardsManager;
     private readonly List<Item> _items;
+    private readonly int _deckId;
     private int _index = 0;
 
-    public LearnForm(List<Item> items)
+    public LearnForm(int deckId, List<Item> items)
     {
         InitializeComponent();
+        _flashcardsManager = new FlashcardsManager(this);
         _items = items;
+        _deckId = deckId;
     }
 
     private void LearnForm_Load(object sender, EventArgs e)
@@ -39,9 +44,17 @@ public partial class LearnForm : CustomForm
         ShowCard();
     }
 
-    private void finishButton_Click(object sender, EventArgs e)
+    private async void finishButton_Click(object sender, EventArgs e)
     {
-
+        var learnedItems = new List<int>();
+        foreach (var item in _items)
+        {
+            learnedItems.Add(item.id);
+        }
+        if (await _flashcardsManager.SendLearnedItems(_deckId, learnedItems))
+        {
+            CloseForm();
+        }
     }
 
     private void closeButton_Click(object sender, EventArgs e)

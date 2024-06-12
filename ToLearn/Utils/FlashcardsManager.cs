@@ -235,6 +235,12 @@ public class FlashcardsManager
         return null;
     }
 
+    public async Task<bool> SendLearnedItems(int deckId, List<int> learnedItems)
+    {
+        var result = await MakeRequest<List<int>>(200, $"api/learn/{deckId}/learned", "Post", learnedItems);
+        return result.Success;
+    }
+
     private async Task<FlashcardsResponse> MakeRequest<T>(int successCode, string path, string method, T? obj, string? successMessage = null)
     {
         FlashcardsResponse result = new();
