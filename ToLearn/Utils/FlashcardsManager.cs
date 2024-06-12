@@ -227,10 +227,17 @@ public class FlashcardsManager
     public async Task<List<Item>> GetItems(Deck deck)
     {
         var result = await MakeRequest<int?>(200, $"api/learn/{deck.id}?count=5", "Get", null);
-        if (result.Success)
+        try
         {
-            var items = JsonSerializer.Deserialize<List<Item>>(result.Body);
-            return items;
+            if (result.Success)
+            {
+                var items = JsonSerializer.Deserialize<List<Item>>(result.Body);
+                return items;
+            }
+        }
+        catch (JsonException ex)
+        {
+            _form.ShowMessage(result.Body, "Message");
         }
         return null;
     }
@@ -245,6 +252,8 @@ public class FlashcardsManager
     {
         FlashcardsResponse result = new();
         var requestMaker = new RequestMaker(AccountManager.GetCurrentUser());
+        var controls = _form.GetControls();
+        _form.ChangeEnabled(controls, false);
         try
         {
             Response response = null;
@@ -283,6 +292,7 @@ public class FlashcardsManager
             result.Success = false;
             _form.ShowMessage(ex.Message, "An error occurred");
         }
+        _form.ChangeEnabled(controls, true);
         return result;
     }
 }
