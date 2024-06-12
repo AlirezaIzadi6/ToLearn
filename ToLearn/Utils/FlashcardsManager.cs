@@ -226,7 +226,7 @@ public class FlashcardsManager
 
     public async Task<List<Item>> GetItems(Deck deck)
     {
-        var result = await MakeRequest<int?>(200, $"learn/{deck.id}?count=5", "GET", null);
+        var result = await MakeRequest<int?>(200, $"api/learn/{deck.id}?count=5", "Get", null);
         if (result.Success)
         {
             var items = JsonSerializer.Deserialize<List<Item>>(result.Body);

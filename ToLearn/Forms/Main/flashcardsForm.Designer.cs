@@ -71,6 +71,7 @@
             learnButton.Tag = "Learn";
             learnButton.Text = "Learn";
             learnButton.UseVisualStyleBackColor = true;
+            learnButton.Click += learnButton_Click;
             // 
             // reviewButton
             // 

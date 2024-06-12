@@ -27,6 +27,23 @@ public partial class FlashcardsForm : CustomForm
         UpdateControls();
     }
 
+    private async void learnButton_Click(object sender, EventArgs e)
+    {
+        var items = await _flashcardsManager.GetItems(GetSelectedDeck());
+        if (items != null)
+        {
+            if (items.Count == 0)
+            {
+                ShowMessage("No new card", "There is no new card to learn in this deck.");
+                return;
+            }
+            var learnForm = new LearnForm(items);
+            Visible = false;
+            learnForm.ShowDialog();
+            Visible = true;
+        }
+    }
+
     private void showUnitsButton_Click(object sender, EventArgs e)
     {
         var showUnitsForm = new ShowUnitsForm(GetSelectedDeck());
@@ -89,7 +106,7 @@ public partial class FlashcardsForm : CustomForm
         {
             "Learn", "Review", "ShowUnits", "Edit", "Delete"
         };
-        if (GetSelectedDeck()  == null)
+        if (GetSelectedDeck() == null)
         {
             ChangeEnabled(controlTags, false);
         }
