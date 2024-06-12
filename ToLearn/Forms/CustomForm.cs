@@ -117,6 +117,16 @@ public class CustomForm : Form, ICustomForm
         }
         return string.Join('\n', errors);
     }
+
+    public List<string> GetControls()
+    {
+        var result = new List<string>();
+        foreach (Control control in Controls)
+        {
+            result.Add((string)control.Tag);
+        }
+        return result;
+    }
 }
 
 public interface ICustomForm
@@ -128,4 +138,5 @@ public interface ICustomForm
     public void SetComboBox(string tag, List<string> options);
     public void SetText(string tag, string text);
     public void ChangeEnabled(List<string>  tags, bool enabled);
+    public List<string> GetControls();
 }
