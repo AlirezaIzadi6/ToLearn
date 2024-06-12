@@ -7,12 +7,14 @@ public partial class ShowUnitsForm : CustomForm
 {
     private readonly FlashcardsManager _flashcardsManager;
     private readonly Deck _deck;
+    private readonly bool _editable;
 
-    public ShowUnitsForm(Deck deck)
+    public ShowUnitsForm(Deck deck, bool editable)
     {
         InitializeComponent();
         _flashcardsManager = new FlashcardsManager(this);
         _deck = deck;
+        _editable = editable;
     }
 
     private async void ShowUnitsForm_Load(object sender, EventArgs e)
@@ -87,6 +89,13 @@ public partial class ShowUnitsForm : CustomForm
         {
             "ShowCards", "EditCards", "Edit", "Delete"
         };
+        if (!_editable)
+        {
+            controlTags.Add("CreateNewUnit");
+            ChangeEnabled(controlTags, false);
+            return;
+        }
+
         if (GetSelectedUnit() != null)
         {
             ChangeEnabled(controlTags, true);
@@ -130,7 +139,7 @@ public partial class ShowUnitsForm : CustomForm
 
     private void showCardsButton_Click(object sender, EventArgs e)
     {
-        var showCardsForm = new ShowCardsForm(GetSelectedUnit());
+        var showCardsForm = new ShowCardsForm(GetSelectedUnit(), _editable);
         Visible = false;
         showCardsForm.ShowDialog();
         Visible = true;

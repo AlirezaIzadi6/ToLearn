@@ -46,7 +46,9 @@ public partial class FlashcardsForm : CustomForm
 
     private void showUnitsButton_Click(object sender, EventArgs e)
     {
-        var showUnitsForm = new ShowUnitsForm(GetSelectedDeck());
+        var selectedDeck = GetSelectedDeck();
+        bool editable = (selectedDeck.creator == AccountManager.GetCurrentUser().UserName);
+        var showUnitsForm = new ShowUnitsForm(selectedDeck, editable);
         Visible = false;
         showUnitsForm.ShowDialog();
         Visible = true;

@@ -7,11 +7,13 @@ public partial class ShowCardsForm : CustomForm
 {
     private readonly FlashcardsManager _flashcardsManager;
     private readonly Unit _unit;
+    private readonly bool _editable;
 
-    public ShowCardsForm(Unit unit)
+    public ShowCardsForm(Unit unit, bool editable)
     {
         InitializeComponent();
         _flashcardsManager = new FlashcardsManager(this);
+        _editable = editable;
         _unit = unit;
     }
 
@@ -103,6 +105,13 @@ public partial class ShowCardsForm : CustomForm
         {
             "Edit", "Delete"
         };
+        if (!_editable)
+        {
+            controlTags.Add("CreateNew");
+            ChangeEnabled(controlTags, false);
+            return;
+        }
+
         if (GetSelection() != null)
         {
             ChangeEnabled(controlTags, true);
