@@ -25,27 +25,17 @@ public class AccountManager
             Email = email,
             Password = password
         };
-        var requestMaker = new RequestMaker();
-        try
+        var result = await MakeRequest<Request>(200, "login", "Post", request);
+        if (result.Success)
         {
-            var response = await requestMaker.Post("login", request);
-            if (response.StatusCode != 200)
-            {
-                _form.ShowError(response);
-                return false;
-            }
-            LoginResponse? loginResponse = JsonSerializer.Deserialize<LoginResponse>(response.Body);
+            LoginResponse? loginResponse = JsonSerializer.Deserialize<LoginResponse>(result.Body);
             var newUser = new User(request.Email, request.Password, loginResponse.accessToken);
             SetCurrentUser(newUser);
             Config.SaveConfig<User>(newUser);
             _userIsLoggedIn = true;
             return true;
         }
-        catch (Exception ex)
-        {
-            _form.ShowMessage(ex.Message, "Error");
-            return false;
-        }
+        return false;
     }
 
     public async Task<bool> Register(string email, string userName, string password)
@@ -135,5 +125,53 @@ public class AccountManager
         {
             return false;
         }
+    }
+
+    private async Task<FlashcardsResponse> MakeRequest<T>(int successCode, string path, string method, T? obj, string? successMessage = null)
+    {
+        FlashcardsResponse result = new();
+        var requestMaker = new RequestMaker(GetCurrentUser());
+        var controls = _form.GetControls();
+        _form.ChangeEnabled(controls, false);
+        try
+        {
+            Response response = null;
+            switch (method)
+            {
+                case "Get":
+                    response = await requestMaker.Get(path);
+                    break;
+                case "Post":
+                    response = await requestMaker.Post(path, obj);
+                    break;
+                case "Put":
+                    response = await requestMaker.Put(path, obj);
+                    break;
+                case "Delete":
+                    response = await requestMaker.Delete(path);
+                    break;
+            }
+            if (response.StatusCode != successCode)
+            {
+                result.Success = false;
+                _form.ShowError(response);
+            }
+            else
+            {
+                result.Success = true;
+                result.Body = response.Body;
+                if (successMessage != null)
+                {
+                    _form.ShowMessage(successMessage, "Success");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            result.Success = false;
+            _form.ShowMessage(ex.Message, "An error occurred");
+        }
+        _form.ChangeEnabled(controls, true);
+        return result;
     }
 }
