@@ -46,23 +46,8 @@ public class AccountManager
             userName = userName,
             Password = password
         };
-        var requestMaker = new RequestMaker();
-        var response = await requestMaker.Post("register", request);
-        try
-        {
-            if (response.StatusCode != 200)
-            {
-                _form.ShowError(response);
-                return false;
-            }
-            _form.ShowMessage("Your account successfully created.", "Success");
-            return true;
-        }
-        catch (Exception ex)
-        {
-            _form.ShowMessage(ex.Message, "Error");
-            return false;
-        }
+        var result = await MakeRequest<Request>(200, "register", "Post", request, "Your account created successfully.");
+        return result.Success;
     }
 
     public void Logout()
@@ -108,17 +93,16 @@ public class AccountManager
             return false;
         }
 
-        var requestMaker = new RequestMaker(user);
         try
         {
-            var response = await requestMaker.Get("manage/info");
-            if (response.StatusCode != 200)
+            var result = await MakeRequest<int?>(200, "manage/info", "Get", null);
+            if (!result.Success)
             {
                 _userIsLoggedIn = false;
                 return false;
             }
-            UserInfo? userInfo = JsonSerializer.Deserialize<UserInfo>(response.Body);
-            _userIsLoggedIn = userInfo.email == null ? false : true;
+            UserInfo? userInfo = JsonSerializer.Deserialize<UserInfo>(result.Body);
+            _userIsLoggedIn = (userInfo.email != null);
             return _userIsLoggedIn;
         }
         catch
