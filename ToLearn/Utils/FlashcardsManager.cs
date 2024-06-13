@@ -224,9 +224,9 @@ public class FlashcardsManager
         return result.Success;
     }
 
-    public async Task<List<Item>> GetItems(Deck deck)
+    public async Task<List<Item>> GetItems(string method, Deck deck)
     {
-        var result = await MakeRequest<int?>(200, $"api/learn/{deck.id}?count=5", "Get", null);
+        var result = await MakeRequest<int?>(200, $"api/{method}/{deck.id}?count=5", "Get", null);
         try
         {
             if (result.Success)
@@ -246,6 +246,22 @@ public class FlashcardsManager
     {
         var result = await MakeRequest<List<int>>(200, $"api/learn/{deckId}/learned", "Post", learnedItems);
         return result.Success;
+    }
+
+    public async Task<bool> CheckAnswer(int deckId, int itemId, string answerText)
+    {
+        var answer = new FlashcardAnswer()
+        {
+            itemId = itemId,
+            answerText = answerText
+        };
+
+        var result = await MakeRequest<FlashcardAnswer>(200, $"api/review/{deckId}", "Post", answer);
+        if (result.Body == "Right")
+        {
+            return true;
+        }
+        return false;
     }
 
     private async Task<FlashcardsResponse> MakeRequest<T>(int successCode, string path, string method, T? obj, string? successMessage = null)

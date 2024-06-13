@@ -82,6 +82,7 @@
             reviewButton.Tag = "Review";
             reviewButton.Text = "Review";
             reviewButton.UseVisualStyleBackColor = true;
+            reviewButton.Click += reviewButton_Click;
             // 
             // showUnitsButton
             // 

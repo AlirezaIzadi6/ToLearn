@@ -29,7 +29,7 @@ public partial class FlashcardsForm : CustomForm
 
     private async void learnButton_Click(object sender, EventArgs e)
     {
-        var items = await _flashcardsManager.GetItems(GetSelectedDeck());
+        var items = await _flashcardsManager.GetItems("learn", GetSelectedDeck());
         if (items != null)
         {
             if (items.Count == 0)
@@ -40,6 +40,23 @@ public partial class FlashcardsForm : CustomForm
             var learnForm = new LearnForm(GetSelectedDeck().id, items);
             Visible = false;
             learnForm.ShowDialog();
+            Visible = true;
+        }
+    }
+
+    private async void reviewButton_Click(object sender, EventArgs e)
+    {
+        var items = await _flashcardsManager.GetItems("review", GetSelectedDeck());
+        if (items != null)
+        {
+            if (items.Count == 0)
+            {
+                ShowMessage("There is no card to review in this deck.", "No review card");
+                return;
+            }
+            var reviewForm = new ReviewForm(GetSelectedDeck().id, items);
+            Visible = false;
+            reviewForm.ShowDialog();
             Visible = true;
         }
     }
