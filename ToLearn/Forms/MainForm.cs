@@ -20,7 +20,7 @@ public partial class MainForm : CustomForm
         if (user != null)
         {
             accountButton.Enabled = false;
-            await _accountManager.Login(user.Email, user.Password);
+            await _accountManager.Login(user.UserName, user.Password);
             accountButton.Enabled = true;
         }
         await UpdateControls();
