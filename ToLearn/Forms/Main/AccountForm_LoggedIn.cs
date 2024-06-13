@@ -15,7 +15,7 @@ public partial class AccountForm_LoggedIn : CustomForm
     private void AccountForm_LoggedIn_Load(object sender, EventArgs e)
     {
         var user = AccountManager.GetCurrentUser();
-        statusTextBox.Text = $"You are logged in with {user.Email}";
+        statusTextBox.Text = $"You are logged in with {user.UserName}";
     }
 
     private void logoutButton_Click(object sender, EventArgs e)
