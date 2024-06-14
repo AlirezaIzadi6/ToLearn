@@ -156,6 +156,7 @@ public class AccountManager
             _form.ShowMessage(ex.Message, "An error occurred");
         }
         _form.ChangeEnabled(controls, true);
+        _form.SetFocus(controls[^1]);
         return result;
     }
 }
