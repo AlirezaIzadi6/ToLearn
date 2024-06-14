@@ -62,9 +62,9 @@ public partial class ReviewForm : CustomForm
         }
     }
 
-    private void difficultCardButton_Click(object sender, EventArgs e)
+    private async void difficultCardButton_Click(object sender, EventArgs e)
     {
-
+        await _flashcardsManager.SetAsDifficult(_items[_index].itemId);
     }
 
     private void skipForNowButton_Click(object sender, EventArgs e)

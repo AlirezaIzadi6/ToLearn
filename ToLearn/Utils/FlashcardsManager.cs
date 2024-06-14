@@ -293,6 +293,12 @@ public class FlashcardsManager
         return null;
     }
 
+    public async Task<bool> SetAsDifficult(int itemId)
+    {
+        var result = await MakeRequest<int?>(200, $"api/review/reset/{itemId}", "Get", null, "This card has reset to first home.");
+        return result.Success;
+    }
+
     private async Task<FlashcardsResponse> MakeRequest<T>(int successCode, string path, string method, T? obj, string? successMessage = null)
     {
         FlashcardsResponse result = new();
