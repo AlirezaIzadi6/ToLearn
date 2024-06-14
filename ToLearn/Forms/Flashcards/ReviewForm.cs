@@ -101,6 +101,9 @@ public partial class ReviewForm : CustomForm
         if (questionMode)
         {
             questionTextBox.Text = _items[_index].questionText;
+            answerTextBox.Text = string.Empty;
+            answerTextBox.ReadOnly = false;
+            questionTextBox.Focus();
             skipForNowButton.Text = "Skip for now";
             ChangeEnabled(controlTags1, true);
             ChangeEnabled(controlTags2, false);
@@ -109,6 +112,8 @@ public partial class ReviewForm : CustomForm
         else
         {
             skipForNowButton.Text = "Next";
+            answerTextBox.ReadOnly= true;
+            answerTextBox.Focus();
             ChangeEnabled(controlTags1, false);
             ChangeEnabled(controlTags2, true);
             if (_index == _items.Count-1)
