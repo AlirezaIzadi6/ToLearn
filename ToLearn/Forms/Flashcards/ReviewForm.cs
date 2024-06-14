@@ -16,10 +16,10 @@ public partial class ReviewForm : CustomForm
 {
     private readonly FlashcardsManager _flashcardsManager;
     private readonly int _dekId;
-    private readonly List<Item> _items;
-    private Item _currentItem;
+    private readonly List<FlashcardQuestion> _items;
+    private int _index;
 
-    public ReviewForm(int deckId, List<Item> items)
+    public ReviewForm(int deckId, List<FlashcardQuestion> items)
     {
         InitializeComponent();
         _flashcardsManager = new FlashcardsManager(this);
@@ -29,23 +29,37 @@ public partial class ReviewForm : CustomForm
 
     private void ReviewForm_Load(object sender, EventArgs e)
     {
-        _currentItem = _items[0];
-        questionTextBox.Text = _currentItem.question;
+        _index = 0;
         UpdateControls(true);
     }
 
     private async void checkButton_Click(object sender, EventArgs e)
     {
-        bool result = await _flashcardsManager.CheckAnswer(_dekId, _currentItem.id, answerTextBox.Text);
-        if (!result)
+        bool result = await _flashcardsManager.CheckAnswer(_dekId, _items[_index].itemId, answerTextBox.Text);
+        if (result)
         {
-            ShowMessage("Your answer is wrong.");
+            if (_index < _items.Count - 1)
+            {
+                _index++;
+                UpdateControls(true);
+            }
+            else
+            {
+                ShowMessage("Review completed.", "Complete");
+                CloseForm();
+            }
         }
     }
 
-    private void showAnswerButton_Click(object sender, EventArgs e)
+    private async void showAnswerButton_Click(object sender, EventArgs e)
     {
-
+        var card = await _flashcardsManager.GetAnswer(_items[_index].itemId);
+        if (card != null)
+        {
+            answerTextBox.Text = card.answer;
+            descriptionTextBox.Text = card.description;
+            UpdateControls(false);
+        }
     }
 
     private void difficultCardButton_Click(object sender, EventArgs e)
@@ -55,7 +69,16 @@ public partial class ReviewForm : CustomForm
 
     private void skipForNowButton_Click(object sender, EventArgs e)
     {
-
+        if (_index < _items.Count-1)
+        {
+            _index++;
+            UpdateControls(true);
+        }
+        else
+        {
+            ShowMessage("Review completed.", "Complete");
+            CloseForm();
+        }
     }
 
     private void closeButton_Click(object sender, EventArgs e)
@@ -65,10 +88,33 @@ public partial class ReviewForm : CustomForm
 
     private void UpdateControls(bool questionMode)
     {
-        var controlTags = new List<string>()
+        var controlTags1 = new List<string>()
         {
             "Check", "ShowAnswer"
         };
-        ChangeEnabled(controlTags, questionMode);
+
+        var controlTags2 = new List<string>()
+        {
+            "Description"
+        };
+
+        if (questionMode)
+        {
+            questionTextBox.Text = _items[_index].questionText;
+            skipForNowButton.Text = "Skip for now";
+            ChangeEnabled(controlTags1, true);
+            ChangeEnabled(controlTags2, false);
+        }
+
+        else
+        {
+            skipForNowButton.Text = "Next";
+            ChangeEnabled(controlTags1, false);
+            ChangeEnabled(controlTags2, true);
+            if (_index == _items.Count-1)
+            {
+                skipForNowButton.Text = "Finish";
+            }
+        }
     }
 }

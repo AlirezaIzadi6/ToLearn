@@ -224,14 +224,32 @@ public class FlashcardsManager
         return result.Success;
     }
 
-    public async Task<List<Item>> GetItems(string method, Deck deck)
+    public async Task<List<Item>> GetLearnItems(Deck deck)
     {
-        var result = await MakeRequest<int?>(200, $"api/{method}/{deck.id}?count=5", "Get", null);
+        var result = await MakeRequest<int?>(200, $"api/learn/{deck.id}?count=5", "Get", null);
         try
         {
             if (result.Success)
             {
                 var items = JsonSerializer.Deserialize<List<Item>>(result.Body);
+                return items;
+            }
+        }
+        catch (JsonException ex)
+        {
+            _form.ShowMessage(result.Body, "Message");
+        }
+        return null;
+    }
+
+    public async Task<List<FlashcardQuestion>> GetReviewItems(Deck deck)
+    {
+        var result = await MakeRequest<int?>(200, $"api/review/{deck.id}?count=5", "Get", null);
+        try
+        {
+            if (result.Success)
+            {
+                var items = JsonSerializer.Deserialize<List<FlashcardQuestion>>(result.Body);
                 return items;
             }
         }
@@ -262,6 +280,17 @@ public class FlashcardsManager
             return true;
         }
         return false;
+    }
+
+    public async Task<Card> GetAnswer(int itemId)
+    {
+        var result = await MakeRequest<int?>(200, $"api/review/getanswer/{itemId}", "Get", null);
+        if ( result.Success)
+        {
+            var card = JsonSerializer.Deserialize<Card>(result.Body);
+            return card;
+        }
+        return null;
     }
 
     private async Task<FlashcardsResponse> MakeRequest<T>(int successCode, string path, string method, T? obj, string? successMessage = null)

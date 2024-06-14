@@ -29,7 +29,7 @@ public partial class FlashcardsForm : CustomForm
 
     private async void learnButton_Click(object sender, EventArgs e)
     {
-        var items = await _flashcardsManager.GetItems("learn", GetSelectedDeck());
+        var items = await _flashcardsManager.GetLearnItems(GetSelectedDeck());
         if (items != null)
         {
             if (items.Count == 0)
@@ -46,7 +46,7 @@ public partial class FlashcardsForm : CustomForm
 
     private async void reviewButton_Click(object sender, EventArgs e)
     {
-        var items = await _flashcardsManager.GetItems("review", GetSelectedDeck());
+        var items = await _flashcardsManager.GetReviewItems(GetSelectedDeck());
         if (items != null)
         {
             if (items.Count == 0)
