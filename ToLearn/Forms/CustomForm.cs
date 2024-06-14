@@ -127,6 +127,18 @@ public class CustomForm : Form, ICustomForm
         }
         return result;
     }
+
+    public void SetFocus(string controlTag)
+    {
+        foreach (Control control in Controls)
+        {
+            if (control.Tag == controlTag)
+            {
+                control.Focus();
+                return;
+            }
+        }
+    }
 }
 
 public interface ICustomForm
@@ -139,4 +151,5 @@ public interface ICustomForm
     public void SetText(string tag, string text);
     public void ChangeEnabled(List<string>  tags, bool enabled);
     public List<string> GetControls();
+    public void SetFocus(string controlTag);
 }
